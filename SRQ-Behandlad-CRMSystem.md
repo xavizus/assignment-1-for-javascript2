@@ -13,3 +13,8 @@ Kund önskar beställa ett CRM-system som följande funktioner ska finnas:
 - Vill få en överblick 
   - Kunna se vilka kunder beställaren har senast pratat med.
   - Kunna sortera på datum.
+
+## Att göra
+ - Sätta beräknad tid på korten
+ - Bjud in micke till Trello
+   - Skriv på slack till Micke
