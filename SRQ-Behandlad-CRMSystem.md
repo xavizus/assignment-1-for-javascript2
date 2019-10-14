@@ -13,3 +13,4 @@ Kund önskar beställa ett CRM-system som följande funktioner ska finnas:
 - Vill få en överblick 
   - Kunna se vilka kunder beställaren har senast pratat med.
   - Kunna sortera på datum.
+  - Todo-list

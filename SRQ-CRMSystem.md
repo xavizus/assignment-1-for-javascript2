@@ -24,3 +24,7 @@
 
 ## Grafisk profil
 Grafiskprofil kommer senare.
+
+tid på korten
+bjud in micke
+skriv på slack till micke (?)
