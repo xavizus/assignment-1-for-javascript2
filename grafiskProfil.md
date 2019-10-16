@@ -16,5 +16,5 @@ Den typsnitten du behöver använda dig av är Open Sans
 
 ## Logo
 
-![Logo][./grafiskprofil/logo.png]
+![Logo](./grafiskprofil/logo.png)
 
