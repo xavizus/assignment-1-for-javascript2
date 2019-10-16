@@ -1,6 +1,6 @@
 # Service Request från kund:
 ## Beställaren:
-- glömmer lätt bort vad han håller på med, Önskar att systemet håller koll på honom!
+- Glömmer lätt bort vad han håller på med, Önskar att systemet håller koll på honom!
 - komma ihåg ärenden när kunden ringer, dvs enkelt att få fram ett ärende om en specifik kund
 - påminnelse - få påminnelser
 - kalender där han kan se när han prata med viss kund
