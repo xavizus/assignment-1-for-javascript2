@@ -18,3 +18,10 @@ Den typsnitten du behöver använda dig av är Open Sans
 Det behöver vara minst 30 pixlar avstånd till kant eller närmaste objekt.
 ![Logo](./grafiskprofil/logo.png)
 
+## Ideér 
+- Inga borders
+- proportioner för loggan i förhållandet med sidan
+- Font-size:
+	- h1: 2 em
+	- h2: 1.5 em
+	- h3: 1.25 em
