@@ -1,0 +1,155 @@
+@mainColor1: #E91F3E;
+@mainColor2: #0A5990;
+@backgroundColor1: #FFF;
+@backgroundColor2: #000;
+@fontColor: #000;
+
+* {
+    padding: 0;
+    margin: 0;
+    font-style: 'open sans';
+    color: @fontColor;
+}
+
+#container {
+    display: grid;
+    grid-template-areas:
+        "header nav"
+        "main main";
+
+    grid-template-columns: 200px 1fr;
+}
+
+
+@media screen and (max-width: 600px) {
+    #container {
+        grid-template-areas:
+            "header"
+            "main"
+            "nav";
+    }
+
+
+    nav {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+header {
+
+    grid-area: header;
+
+    .logo {
+        display: block;
+        max-width: 200px;
+        max-height: 100px;
+        height: auto;
+        width: auto;
+    }
+}
+
+main {
+    grid-area: main;
+}
+
+nav {
+    grid-area: nav;
+
+    ul {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-decoration: none;
+        list-style-type: none;
+
+        li {
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        @media screen and (min-width: 600px) {
+            li:last-child {
+                margin-left: auto;
+                order: 2;
+
+                button[type=submit] {
+                    font-size: 17px;
+                    float: right;
+                    border: none;
+                    cursor: pointer;
+
+                    width: 32px;
+                    height: 32px;
+                    background-image: url("./../images/baseline_search_black_18dp.png");
+                    background-color: #DDD;
+                }
+
+                input[type="text"] {
+                    font-size: 17px;
+                    border: none;
+                    padding: 6px;
+                }
+
+
+            }
+        }
+
+        @media screen and (max-width: 599px) {
+            li:last-child {
+                input[type="text"] {
+                    display: none;
+                }
+            }
+            button[type=submit] {
+                font-size: 17px;
+                float: right;
+                border: none;
+                cursor: pointer;
+                width: 48px;
+                height: 48px;
+                background-image: url("./../images/baseline_search_black_18dp.png");
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+        }
+
+    }
+}
+
+
+
+#icons() {
+    display: block;
+    background-size: 48px 48px;
+    width: 48px;
+    height: 48px;
+    background-repeat: no-repeat;
+}
+
+#home-icon {
+    background: url(./../images/baseline_home_black_18dp.png);
+    #icons();
+}
+
+#customers-icon {
+    background: url(./../images/baseline_supervised_user_circle_black_18dp.png);
+    #icons();
+}
+
+#calendar-icon {
+    background: url(./../images/baseline_calendar_today_black_18dp.png);
+    #icons();
+}
+
+#todo-icon {
+    background: url(./../images/baseline_format_list_bulleted_black_18dp.png);
+    #icons();
+}
+
+#search-icon {
+    background: url("./../images/baseline_search_black_18dp.png");
+    #icons();
+}
