@@ -21,7 +21,7 @@
 }
 
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 755px) {
     #container {
         grid-template-areas:
             "header"
@@ -64,17 +64,15 @@ nav {
         align-items: center;
         text-decoration: none;
         list-style-type: none;
+        justify-content: space-between;
 
         li {
             padding: 10px;
             text-decoration: none;
         }
 
-        @media screen and (min-width: 600px) {
+        @media screen and (min-width: 756px) {
             li:last-child {
-                margin-left: auto;
-                order: 2;
-
                 button[type=submit] {
                     font-size: 17px;
                     float: right;
@@ -83,8 +81,9 @@ nav {
 
                     width: 32px;
                     height: 32px;
-                    background-image: url("./../images/baseline_search_black_18dp.png");
+                    background-image: url("./../images/96px/baseline_search_black_48dp.png");
                     background-color: #DDD;
+                    background-size: contain;
                 }
 
                 input[type="text"] {
@@ -97,22 +96,23 @@ nav {
             }
         }
 
-        @media screen and (max-width: 599px) {
+        @media screen and (max-width: 755px) {
             li:last-child {
                 input[type="text"] {
                     display: none;
                 }
             }
             button[type=submit] {
+                background-color: #FFF;
                 font-size: 17px;
                 float: right;
                 border: none;
                 cursor: pointer;
                 width: 48px;
                 height: 48px;
-                background-image: url("./../images/baseline_search_black_18dp.png");
+                background-image: url("./../images/96px/baseline_search_black_48dp.png");
                 background-repeat: no-repeat;
-                background-size: cover;
+                background-size: contain;
             }
         }
 
@@ -130,26 +130,26 @@ nav {
 }
 
 #home-icon {
-    background: url(./../images/baseline_home_black_18dp.png);
+    background: url(./../images/96px/baseline_home_black_48dp.png);
     #icons();
 }
 
 #customers-icon {
-    background: url(./../images/baseline_supervised_user_circle_black_18dp.png);
+    background: url(./../images/96px/baseline_supervised_user_circle_black_48dp.png);
     #icons();
 }
 
 #calendar-icon {
-    background: url(./../images/baseline_calendar_today_black_18dp.png);
+    background: url(./../images/96px/baseline_calendar_today_black_48dp.png);
     #icons();
 }
 
 #todo-icon {
-    background: url(./../images/baseline_format_list_bulleted_black_18dp.png);
+    background: url(./../images/96px/baseline_format_list_bulleted_black_48dp.png);
     #icons();
 }
 
 #search-icon {
-    background: url("./../images/baseline_search_black_18dp.png");
+    background: url("./../images/96px/baseline_search_black_48dp.png");
     #icons();
 }
