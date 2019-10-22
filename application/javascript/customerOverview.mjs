@@ -8,11 +8,10 @@ async function customerOverview() {
     let testUserName = "admin";
     let testPassword = "password";
 
-    let userId = await api.getUserIdByFirstNameAndLastName(Settings.url+'users',testUserName,testPassword);
-    
+    let userId = await api.getUserIdByFirstNameAndLastName(Settings.url + Settings.user, testUserName, testPassword);
+    console.log(userId);
     let currentUser = new User(userId);
     await currentUser.getUserData();
     await currentUser.getCustomers();
-
-    console.log(currentUser);
+    await currentUser.getCustomerComments(userId);
 }
