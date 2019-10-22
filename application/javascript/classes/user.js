@@ -22,7 +22,7 @@ class User {
     async getCustomers() {
         let customers = await api.default(Settings.url + 'users/' + this.id + '/customers');
         for (let customer of customers) {
-            this.customers.push(new Customer(customer.id, customer.firstName, customer.lastName, customer.company, customer.mail, customer.phone, customer.hourlyPrice));
+            this.customers.push(new Customer(customer.id, customer.firstName, customer.lastName, customer.company, customer.mail, customer.phone, customer.hourPrice));
 
         }
     }

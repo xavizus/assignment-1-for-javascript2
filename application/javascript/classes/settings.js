@@ -6,5 +6,5 @@ let Settings = {
     todo: "todo/",
     event: "events/",
     customer: "customers/",
-    comment: "comments/"
+    comment: "comment/"
 }

@@ -10,17 +10,28 @@ class Customer {
         this.lastName = lastName;
         this.company = company;
         this.email = email;
-        this.phonenumber = phonenumber;
+        this.phoneNumber = phonenumber;
         this.hourlyPrice = hourlyPrice;
         this.listOfCommunications = [];
     }
 
     async getCommentsForCustomer(userId) {
-        console.log(Settings.url + Settings.user + userId + '/' + Settings.customer + this.id + '/' + Settings.comment);
         let customersComments = await api.getData(Settings.url + Settings.user + userId + '/' + Settings.customer + this.id + '/' + Settings.comment);
-        console.log(customersComments);
         for (let customersComment of customersComments) {
             this.listOfCommunications.push(new Comment(customersComment));
         }
+    }
+
+    getLatestComment() {
+        let latestCommentIndex = 0;
+        let largestDate = 0;
+        for(let comment in this.listOfCommunications) {
+            if(this.listOfCommunications[comment].date > largestDate) {
+                largestDate = this.listOfCommunications[comment].date;
+                latestCommentIndex = comment;
+            }
+        }
+
+        return this.listOfCommunications[latestCommentIndex];
     }
 }
