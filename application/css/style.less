@@ -38,7 +38,7 @@
 
 header {
     grid-area: header;
-
+    top: 0px;
     .logo {
         display: block;
         max-height: 100px;
@@ -49,15 +49,16 @@ header {
 
 main {
     grid-area: main;
-    max-width: 100%;
-    table {
-        width: 100% !important;
-        display: block;
-        overflow-x: scroll;
-        white-space: nowrap;
-    }
 }
 
+#content {
+        white-space: nowrap;
+        position: relative;
+        overflow-y: scroll;
+    .table {
+        display: block;
+    }
+}
 nav {
     grid-area: nav;
     width: 100%;
@@ -197,4 +198,26 @@ nav {
     100% {
       transform: rotate(360deg);
     }
+  }
+
+  #addNewCustomer {
+    padding: 10px;
+    margin-left: 20px;
+    background: greenyellow;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+
+  #content input {
+    margin-left: 20px;
+  }
+
+  #createBtn {
+    padding: 10px;
+    margin-left: 20px;
+    background: greenyellow;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
   }
