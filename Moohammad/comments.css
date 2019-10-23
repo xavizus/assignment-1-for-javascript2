@@ -1,0 +1,35 @@
+#container {
+    border: solid black 2px;
+    width: 70vh;
+    height: 50vh;
+    margin: auto;
+    display: grid;
+    grid-template-areas: 
+    "customerId" "customerId" "customId"
+    "textarea" "textarea" "textarea"
+    "btn" "btn" "btn" 
+    ;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    padding: 3vh;
+}
+
+#customerId {
+    grid-area: customerId;
+    margin: auto;
+    background-color: lightpink;
+
+}
+
+#textarea {
+    grid-area: textarea;
+    background-color: tomato;
+
+}
+
+#btn {
+    grid-area: btn;
+    background-color: lightsalmon;
+
+}
+
