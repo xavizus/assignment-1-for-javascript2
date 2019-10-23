@@ -18,6 +18,10 @@ btn.addEventListener("click", getComment);
 
 function getComment() {
 
+    if(nameInput.value  === "" || textarea.value === ""){
+        alert("Fill in the empty forms!");
+    }
+     else {
         (async () => {
             let newComment = {
                 name: nameInput.value,
@@ -30,6 +34,10 @@ function getComment() {
             
         })();
         
+    }
+
+ 
+     
 }
 
 

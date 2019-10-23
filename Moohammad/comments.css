@@ -1,11 +1,15 @@
+* {
+    border-radius: 1vh;
+}
+
 #container {
-    border: solid black 2px;
+    border: solid black 0.1vh;
     width: 70vh;
     height: 50vh;
     margin: auto;
     display: grid;
     grid-template-areas: 
-    "customerId" "customerId" "customId"
+    "nameInput" "nameInput" "nameInput"
     "textarea" "textarea" "textarea"
     "btn" "btn" "btn" 
     ;
@@ -14,22 +18,19 @@
     padding: 3vh;
 }
 
-#customerId {
-    grid-area: customerId;
+#nameInput {
+    grid-area: nameInput;
     margin: auto;
-    background-color: lightpink;
-
+    width: 100%;
+    height: 100%;
 }
 
 #textarea {
     grid-area: textarea;
-    background-color: tomato;
-
+    margin-bottom: 2vh;
 }
 
 #btn {
     grid-area: btn;
-    background-color: lightsalmon;
-
 }
 
