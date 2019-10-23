@@ -22,6 +22,7 @@ async function customerOverview() {
 
 function buildTable(user) {
     let table = `
+    <div class="table">
     <table>
     `;
 
@@ -55,7 +56,15 @@ function buildTable(user) {
 
     for (let customer of user.customers) {
         let latestComment = customer.getLatestComment();
+        if (latestComment === undefined) {
+            latestComment = {
+                comment: "No comments exists",
+                date: new Date()
+            };
+        }
+
         let latestCommentDate = new Date(latestComment.date);
+
         table += `
         <tr>
             <td>${customer.firstName} ${customer.lastName}</td>
@@ -69,7 +78,7 @@ function buildTable(user) {
         `;
 
     }
-    table += `</table>`;
+    table += `</table> </div>`;
 
     document.getElementById("content").insertAdjacentHTML("afterbegin", table);
 }

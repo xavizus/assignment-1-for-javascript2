@@ -22,6 +22,7 @@
 }
 header {
   grid-area: header;
+  top: 0px;
 }
 header .logo {
   display: block;
@@ -31,13 +32,14 @@ header .logo {
 }
 main {
   grid-area: main;
-  max-width: 100%;
 }
-main table {
-  width: 100% !important;
-  display: block;
-  overflow-x: scroll;
+#content {
   white-space: nowrap;
+  position: relative;
+  overflow-y: scroll;
+}
+#content .table {
+  display: block;
 }
 nav {
   grid-area: nav;
@@ -71,11 +73,6 @@ nav ul li {
     font-size: 17px;
     border: none;
     padding: 6px;
-  }
-
-  .inputClass {
-    background-color: green;
-    
   }
 }
 @media screen and (max-width: 755px) {
