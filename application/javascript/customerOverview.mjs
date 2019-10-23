@@ -144,3 +144,74 @@ function loading(isLoading = true) {
     let htmlLoadingIcon = `<div class="lds-ring loading"><div></div><div></div><div></div><div></div></div>`;
     document.getElementById("customerOverview").innerHTML = htmlLoadingIcon;
 }
+
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    let addNewCustomerDiv = document.createElement("div");
+    addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
+    document.getElementById("content").appendChild(addNewCustomerDiv);
+    let btn = document.createElement("button");
+    btn.setAttribute("id", "addNewCustomer");
+    let btnText = document.createTextNode("+");
+    btn.appendChild(btnText);
+    document.getElementById("addNewCustomerDiv").appendChild(btn);
+
+    let addNewCustomer = document.getElementById("addNewCustomer");
+
+    addNewCustomer.addEventListener("click", function(event) {
+        document.getElementById(event.target.id).disabled = "true"; //förebygger så inte man kan trycka på add new customer -knappen flera gånger
+        function buildForm() {
+            let form = `
+                <form>
+                    <input type="text" id="firstName" placeholder="Firstname">
+                    <br>
+                    <input type="text" id="lastName" placeholder="Lastname">
+                    <br>
+                    <input type="text" id="company" placeholder="Company">
+                    <br>
+                    <input type="text" id="mail" placeholder="Mail">
+                    <br>
+                    <input type="text" id="phoneNumber" placeholder="Phone Number">
+                    <br>
+                    <input type="text" id="hourlyPrice" placeholder="Hourly Price">
+                    <br>
+                    <button id="createBtn">Add</button>
+                </form> 
+            `
+            document.getElementById("addNewCustomerDiv").insertAdjacentHTML("beforeend", form);
+        }
+        buildForm();
+        document.getElementById("addNewCustomerDiv").style.backgroundColor = "#0A5990";
+        document.getElementById("addNewCustomer").style.visibility = "hidden";
+        document.getElementById("addNewCustomer").style.position = "absolute";
+    });
+    document.getElementById("content").addEventListener("click", (event) => {
+        event.preventDefault();
+        if (event.target.id == "createBtn") {
+            let firstName = document.getElementById("firstName").value;
+            let lastName = document.getElementById("lastName").value;
+            let company = document.getElementById("company").value;
+            let mail = document.getElementById("mail").value;
+            let phone = document.getElementById("phoneNumber").value;
+            let hourprice = document.getElementById("hourlyPrice").value;
+
+            console.log(firstName + " " + lastName + " " + company + " " + mail + " " + phone + " " + hourprice);
+
+            let newCustomer = {
+                firstName: firstName,
+                lastName: lastName,
+                company: company,
+                mail: mail,
+                phone: phone,
+                hourPrice: hourprice
+            };
+
+            (async(input) => {
+                let postNewCustomer = await api.postData("http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/customers", input);
+                console.log(postNewCustomer);
+                customerOverview();
+            })(newCustomer);
+
+        }
+    });
+});
