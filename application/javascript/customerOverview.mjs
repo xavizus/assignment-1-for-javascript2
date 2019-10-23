@@ -1,6 +1,7 @@
 import Settings from './classes/settings.js';
 import User from './classes/user.js';
 import * as api from './customFunctions/api.js';
+import Customer from './classes/customer.js';
 
 document.addEventListener("DOMContentLoaded", customerOverview);
 
@@ -22,7 +23,8 @@ async function customerOverview() {
 
     for (let element of elements) {
         element.addEventListener("click", (event) => {
-            console.log(event.target.parentNode.attributes.data.nodeValue);
+            let customerId = event.target.parentNode.attributes.data.nodeValue;
+            viewCustomerCard(customerId, userId);
         });
     }
 }
@@ -89,6 +91,46 @@ function buildTable(user) {
     table += `</table> </div>`;
 
     document.getElementById("customerOverview").insertAdjacentHTML("afterbegin", table);
+}
+
+
+async function viewCustomerCard(idOfCustomer, idOfUser) {
+    loading();
+    console.log(idOfCustomer);
+    let customer = new Customer(idOfCustomer);
+    await customer.loadCustomerData(idOfUser);
+    loading(false);
+
+    let table = `
+    <table>
+    `;
+
+    table += `
+    <tr>
+        <td>Name</td>
+        <td>${customer.firstName} ${customer.lastName}</td>
+    </tr>
+    <tr>
+        <td>Company</td>
+        <td>${customer.company}</td>
+        </tr>
+    <tr>
+        <td>E-mail</td>
+        <td>${customer.email}</td>
+        </tr>
+    <tr>
+        <td>Phone</td>
+        <td>${customer.phoneNumber}</td>
+        </tr>
+    <tr>
+        <td>Price</td>
+        <td>${customer.hourlyPrice}</td>
+    </tr>
+    `
+
+    table += `</table>`;
+
+    document.getElementById("customerOverview").innerHTML = table;
 }
 
 function loading(isLoading = true) {
