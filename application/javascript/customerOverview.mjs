@@ -53,7 +53,7 @@ function buildTable(user) {
     </tr>
     `;
 
-    for(let customer of user.customers) {
+    for (let customer of user.customers) {
         let latestComment = customer.getLatestComment();
         let latestCommentDate = new Date(latestComment.date);
         table += `
@@ -71,13 +71,13 @@ function buildTable(user) {
     }
     table += `</table>`;
 
-    document.getElementById("content").innerHTML = table;
+    document.getElementById("content").insertAdjacentHTML("beforeend", table);
 }
 
 function loading(isLoading = true) {
-    if(!isLoading) {
+    if (!isLoading) {
         let elements = document.getElementsByClassName("loading");
-        for(let element of elements) {
+        for (let element of elements) {
             element.remove();
         }
         return;
