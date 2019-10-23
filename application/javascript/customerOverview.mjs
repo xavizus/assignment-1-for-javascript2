@@ -17,6 +17,14 @@ async function customerOverview() {
     loading(false);
 
     buildTable(currentUser);
+
+    var elements = document.getElementsByClassName('clickAble');
+
+    for (let element of elements) {
+        element.addEventListener("click", (event) => {
+            console.log(event.target.parentNode.attributes.data.nodeValue);
+        });
+    }
 }
 
 
@@ -66,7 +74,7 @@ function buildTable(user) {
         let latestCommentDate = new Date(latestComment.date);
 
         table += `
-        <tr>
+        <tr class="clickAble" data="${customer.id}">
             <td>${customer.firstName} ${customer.lastName}</td>
             <td>${customer.company}</td>
             <td>${customer.email}</td>
