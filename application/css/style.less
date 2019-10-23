@@ -9,6 +9,7 @@
     margin: 0;
     font-family: Open Sans;
     color: @fontColor;
+    box-sizing: border-box;
 }
 
 #container {
@@ -200,24 +201,43 @@ nav {
     }
   }
 
-  #addNewCustomer {
-    padding: 10px;
-    margin-left: 20px;
-    background: greenyellow;
+  #addNewCustomerDiv {
+      border-radius: 5px;
+      margin-left: 20px;
+      width: 20%;
+      padding: 15px;
+  }
+
+  #addNewCustomer { //första knappen
+    padding: 10px 15px 10px 15px;
+    background: @mainColor2;
     border: none;
     border-radius: 5px;
     text-decoration: none;
+    font-size: 16px;
+    color: @backgroundColor1;
   }
 
   #content input {
-    margin-left: 20px;
+    width: 100%;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding-left: 5px;
   }
 
-  #createBtn {
+  #content input:first-child { 
+      margin-top: 0;
+  }
+
+  #createBtn { //andra knappen
     padding: 10px;
-    margin-left: 20px;
-    background: greenyellow;
+    background-color: @mainColor1;
     border: none;
     border-radius: 5px;
     text-decoration: none;
+    font-size: 16px;
+    color: @backgroundColor1;
+    margin-top: 10px;
   }

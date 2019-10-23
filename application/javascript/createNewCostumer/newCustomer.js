@@ -8,37 +8,43 @@
 import * as api from "../customFunctions/api.js"
 
 window.addEventListener('DOMContentLoaded', (event) => {
+    let addNewCustomerDiv = document.createElement("div");
+    addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
+    document.getElementById("content").appendChild(addNewCustomerDiv);
     let btn = document.createElement("button");
     btn.setAttribute("id", "addNewCustomer");
-    let btnText = document.createTextNode("Add new customer");
+    let btnText = document.createTextNode("+");
     btn.appendChild(btnText);
-    document.getElementById("content").appendChild(btn);
+    document.getElementById("addNewCustomerDiv").appendChild(btn);
 
     let addNewCustomer = document.getElementById("addNewCustomer");
 
-    addNewCustomer.addEventListener("click", function () {
-        
+    addNewCustomer.addEventListener("click", function(event) {
+        document.getElementById(event.target.id).disabled = "true"; //förebygger så inte man kan trycka på add new customer -knappen flera gånger
         function buildForm() {
             let form = `
                 <form>
-                    <input type="text" id="firstName" placeholder="Firstname" value="firstname">
+                    <input type="text" id="firstName" placeholder="Firstname">
                     <br>
-                    <input type="text" id="lastName" placeholder="Lastname" value="lastname">
+                    <input type="text" id="lastName" placeholder="Lastname">
                     <br>
-                    <input type="text" id="company" placeholder="Company" value="companyname">
+                    <input type="text" id="company" placeholder="Company">
                     <br>
-                    <input type="text" id="mail" placeholder="Mail" value="mailen">
+                    <input type="text" id="mail" placeholder="Mail">
                     <br>
-                    <input type="text" id="phoneNumber" placeholder="Phone Number" value="nummer">
+                    <input type="text" id="phoneNumber" placeholder="Phone Number">
                     <br>
-                    <input type="text" id="hourlyPrice" placeholder="Hourly Price" value="kronor">
-                    <br><br>
-                    <button id="createBtn">Create</button>
+                    <input type="text" id="hourlyPrice" placeholder="Hourly Price">
+                    <br>
+                    <button id="createBtn">Add</button>
                 </form> 
             `
-            document.getElementById("content").insertAdjacentHTML("beforeend", form);
+            document.getElementById("addNewCustomerDiv").insertAdjacentHTML("beforeend", form);
         }
         buildForm();
+        document.getElementById("addNewCustomerDiv").style.backgroundColor = "#0A5990";
+        document.getElementById("addNewCustomer").style.visibility = "hidden";
+        document.getElementById("addNewCustomer").style.position = "absolute";
     });
     document.getElementById("content").addEventListener("click",(event)=> {
         event.preventDefault();
@@ -70,7 +76,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-
+//customerOverview()
 // let linebreak = document.createElement("br");
         // let firstName = document.createElement("input");
         // firstName.setAttribute("id", "firstNameInput");
