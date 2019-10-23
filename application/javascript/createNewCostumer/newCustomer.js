@@ -5,6 +5,8 @@
 
 //skriv om allt som html-kod, lägg in det i en variabel. Använd sedan insertHTML-grejen på den variabeln.
 
+import * as api from "../customFunctions/api.js"
+
 window.addEventListener('DOMContentLoaded', (event) => {
     let btn = document.createElement("button");
     btn.setAttribute("id", "addNewCustomer");
@@ -17,19 +19,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
     addNewCustomer.addEventListener("click", function () {
         
         function buildForm() {
-            form = `
+            let form = `
                 <form>
-                    <input type="text" id="firstName" placeholder="Firstname">
+                    <input type="text" id="firstName" placeholder="Firstname" value="firstname">
                     <br>
-                    <input type="text" id="lastName" placeholder="Lastname">
+                    <input type="text" id="lastName" placeholder="Lastname" value="lastname">
                     <br>
-                    <input type="text" id="company" placeholder="Company">
+                    <input type="text" id="company" placeholder="Company" value="companyname">
                     <br>
-                    <input type="text" id="mail" placeholder="Mail">
+                    <input type="text" id="mail" placeholder="Mail" value="mailen">
                     <br>
-                    <input type="text" id="phoneNumber" placeholder="Phone Number">
+                    <input type="text" id="phoneNumber" placeholder="Phone Number" value="nummer">
                     <br>
-                    <input type="text" id="hourlyPrice" placeholder="Hourly Price">
+                    <input type="text" id="hourlyPrice" placeholder="Hourly Price" value="kronor">
                     <br><br>
                     <button id="createBtn">Create</button>
                 </form> 
@@ -49,6 +51,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let hourprice = document.getElementById("hourlyPrice").value;
             
             console.log(firstName + " " + lastName + " " + company + " " + mail + " " + phone + " " + hourprice);
+
+            let newCustomer = {
+                firstName: firstName,
+                lastName: lastName,
+                company: company,
+                mail: mail,
+                phone: phone,
+                hourPrice: hourprice
+            };
+            
+            (async (input) => {
+                let postNewCustomer = await api.postData("http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/customers", input);
+                console.log(postNewCustomer);
+            })(newCustomer);
+            
         }
     });
 });

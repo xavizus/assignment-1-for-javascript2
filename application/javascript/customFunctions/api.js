@@ -11,7 +11,6 @@ export async function postData(url, objectData) {
     return await response.json();
 }
 
-
 export async function getData(url) {
     let response = await fetch(url);
     return await response.json();
