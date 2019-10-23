@@ -80,7 +80,7 @@ function buildTable(user) {
     }
     table += `</table> </div>`;
 
-    document.getElementById("content").insertAdjacentHTML("afterbegin", table);
+    document.getElementById("customerOverview").insertAdjacentHTML("afterbegin", table);
 }
 
 function loading(isLoading = true) {
@@ -92,5 +92,5 @@ function loading(isLoading = true) {
         return;
     }
     let htmlLoadingIcon = `<div class="lds-ring loading"><div></div><div></div><div></div><div></div></div>`;
-    document.getElementById("content").innerHTML = htmlLoadingIcon;
+    document.getElementById("customerOverview").innerHTML = htmlLoadingIcon;
 }
