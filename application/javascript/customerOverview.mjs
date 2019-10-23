@@ -71,7 +71,7 @@ function buildTable(user) {
     }
     table += `</table>`;
 
-    document.getElementById("content").insertAdjacentHTML("beforeend", table);
+    document.getElementById("content").insertAdjacentHTML("afterbegin", table);
 }
 
 function loading(isLoading = true) {
