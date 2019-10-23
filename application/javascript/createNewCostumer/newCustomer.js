@@ -10,7 +10,7 @@ import * as api from "../customFunctions/api.js"
 window.addEventListener('DOMContentLoaded', (event) => {
     let btn = document.createElement("button");
     btn.setAttribute("id", "addNewCustomer");
-    let btnText = document.createTextNode("Create a new customer");
+    let btnText = document.createTextNode("Add new customer");
     btn.appendChild(btnText);
     document.getElementById("content").appendChild(btn);
 

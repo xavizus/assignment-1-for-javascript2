@@ -169,3 +169,22 @@ nav ul li {
     transform: rotate(360deg);
   }
 }
+#addNewCustomer {
+  padding: 10px;
+  margin-left: 20px;
+  background: greenyellow;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+}
+#content input {
+  margin-left: 20px;
+}
+#createBtn {
+  padding: 10px;
+  margin-left: 20px;
+  background: greenyellow;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+}
