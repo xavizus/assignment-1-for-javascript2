@@ -65,6 +65,11 @@ nav ul li {
     border: none;
     padding: 6px;
   }
+
+  .inputClass {
+    background-color: green;
+    
+  }
 }
 @media screen and (max-width: 755px) {
   nav ul li:last-child input[type="text"] {
