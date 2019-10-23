@@ -73,9 +73,26 @@ nav ul li {
     padding: 6px;
   }
 
-  .inputClass {
-    background-color: green;
-    
+  #addNewCustomer {
+    padding: 10px;
+    margin-left: 20px;
+    background: greenyellow;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+
+  #content input {
+    margin-left: 20px;
+  }
+
+  #createBtn {
+    padding: 10px;
+    margin-left: 20px;
+    background: greenyellow;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
   }
 }
 @media screen and (max-width: 755px) {
