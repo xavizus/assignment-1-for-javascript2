@@ -28,7 +28,6 @@ class User {
     }
 
     async getCustomerComments() {
-
         await Promise.all(this.customers.map (async customer => {
             await customer.getCommentsForCustomer(this.id);
         }));
