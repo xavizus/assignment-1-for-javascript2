@@ -1,40 +1,44 @@
 import * as api from '../customFunctions/api.js';
 import Settings from './settings.js';
-export { Event as default };
+export { Reminder as default };
 
-class Event {
-    constructor(id, date, description, content) {
+class Reminder {
+    constructor(id, userId, date, description, content, checked) {
         this.id = id;
+        this.userId = userId;
         this.date = date;
         this.description = description;
         this.content = content;
+        this.checked = checked
     }
 
-    async loadEventData(userId) {
-        let data = await api.getData(Settings.url + Settings.user + userId + '/' + Settings.event + this.id);
+    async loadEventData(userId, i) {
+        let data = await api.getData(Settings.url + Settings.user + userId + '/' + Settings.event + i);
         this.id = data.id;
+        this.userId = userId
         this.date = data.date;
         this.description = data.description;
         this.content = data.content;
+        this.checked = data.checked;
+        console.log(this.checked);
     }
 
     async getEvents() {
+        let data = await api.getData(Settings.url + Settings.user + this.userId + '/' + Settings.event + this.id);
         let newDate = new Date();
-        let year = newDate.getFullYear();
-        let month = newDate.getMonth() + 1;
-        let day = "";
-        if(day < 10){
-            day = "0" + newDate.getDay();
-        } else {
-            day = newDate.getDay();
-        }
-        let currentDate = year + "-" + month + "-" + day;
+        let currentDate = newDate.toISOString().substring(0, 10);
+        let currentDateMil = newDate.getTime();
+        let thisDate = new Date();
+        thisDate.setTime(Date.parse(this.date));
+        let thisDateMil = thisDate.getTime();
+        console.log(thisDateMil);
+        console.log(currentDateMil);
+        console.log(this.content)
 
-        let events = await api.default(Settings.url + 'users/' + this.id + '/events');
-        for (i = 0; i < events.length; i++) {
-            if (events[i].date == currentDate) {
-                alert(events[i].date);
+            if (thisDate.toISOString().substring(0, 10) == currentDate || currentDateMil > thisDateMil) {
+                alert(this.content);
+                data.checked = true;
             }
         }
-    }
+    
 }

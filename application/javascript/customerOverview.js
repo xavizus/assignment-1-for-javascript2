@@ -2,6 +2,7 @@ import Settings from './classes/settings.js';
 import User from './classes/user.js';
 import * as api from './customFunctions/api.js';
 import Customer from './classes/customer.js';
+import Reminder from './classes/events.js';
 
 document.addEventListener("DOMContentLoaded", customerOverview);
 
@@ -28,10 +29,18 @@ async function customerOverview() {
         });
     }
 
-    let events = new Event();
-    events.loadEventData(userId);
-    setInterval(events.getEvents());
-    console.log(events);
+    let allEvents = [];
+    let events = await api.default(Settings.url + Settings.user + userId + '/' + Settings.event);
+    for(let i = 1; i < events.length + 1; i++){
+        let eventObj = new Reminder();
+        await eventObj.loadEventData(userId, i);
+        allEvents.push(eventObj);
+        
+    }
+    
+    for(let i = 0; i < allEvents.length; i++){
+    allEvents[i].getEvents();
+}
 }
 
 
