@@ -27,6 +27,11 @@ async function customerOverview() {
             viewCustomerCard(customerId, userId);
         });
     }
+
+    let events = new Event();
+    events.loadEventData(userId);
+    setInterval(events.getEvents());
+    console.log(events);
 }
 
 
@@ -234,4 +239,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             },false );
         }
     });
+
+
 });
