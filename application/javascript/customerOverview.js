@@ -33,32 +33,32 @@ async function customerOverview() {
 function buildTable(user) {
     let table = `
     <div class="table">
-    <table>
+    <table class="table table-hover table-striped table-sm">
     `;
 
     table += `
     <tr>
-        <th>
+        <th scope="col">
             Name
         </th>
 
-        <th>
+        <th cope="col">
             Company
         </th>
 
-        <th>
+        <th cope="col">
             E-mail
         </th>
-        <th>
+        <th cope="col">
             Phone
         </th>
-        <th>
+        <th cope="col">
             Hourly price
         </th>
-        <th>
+        <th cope="col">
             Latest Comment
         </th>
-        <th>
+        <th cope="col">
             Last Comment Date
         </th>
     </tr>
@@ -102,7 +102,7 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
     loading(false);
 
     let table = `
-    <table>
+    <table class="table table-striped table-sm">
     `;
 
     table += `
@@ -145,6 +145,31 @@ function loading(isLoading = true) {
     document.getElementById("customerOverview").innerHTML = htmlLoadingIcon;
 }
 
+function addCustomer() {
+    let firstName = document.getElementById("firstName").value;
+    let lastName = document.getElementById("lastName").value;
+    let company = document.getElementById("company").value;
+    let mail = document.getElementById("mail").value;
+    let phone = document.getElementById("phoneNumber").value;
+    let hourprice = document.getElementById("hourlyPrice").value;
+
+    console.log(firstName + " " + lastName + " " + company + " " + mail + " " + phone + " " + hourprice);
+
+    let newCustomer = {
+        firstName: firstName,
+        lastName: lastName,
+        company: company,
+        mail: mail,
+        phone: phone,
+        hourPrice: hourprice
+    };
+
+    (async(input) => {
+        let postNewCustomer = await api.postData("http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/customers", input);
+        console.log(postNewCustomer);
+        customerOverview();
+    })(newCustomer);
+}
 
 window.addEventListener('DOMContentLoaded', (event) => {
     let addNewCustomerDiv = document.createElement("div");
@@ -162,19 +187,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById(event.target.id).disabled = "true"; //förebygger så inte man kan trycka på add new customer -knappen flera gånger
         function buildForm() {
             let form = `
-                <form>
-                    <input type="text" id="firstName" placeholder="Firstname">
-                    <br>
-                    <input type="text" id="lastName" placeholder="Lastname">
-                    <br>
-                    <input type="text" id="company" placeholder="Company">
-                    <br>
-                    <input type="text" id="mail" placeholder="Mail">
-                    <br>
-                    <input type="text" id="phoneNumber" placeholder="Phone Number">
-                    <br>
-                    <input type="text" id="hourlyPrice" placeholder="Hourly Price">
-                    <br>
+                <form class="needs-validation" novalidate>
+                    <input type="text" id="firstName" class="form-control" placeholder="Firstname" required>
+                    <div class="invalid-feedback">
+                        Ange ett förnamn
+                    </div>
+                    <input type="text" id="lastName" class="form-control" placeholder="Lastname" required>
+                    <div class="invalid-feedback">
+                        Ange ett efternamn
+                    </div>
+                    <input type="text" id="company" class="form-control" placeholder="Company" required>
+                    <div class="invalid-feedback">
+                        Ange ett företagsnamn
+                    </div>
+                    <input type="text" id="mail" class="form-control" placeholder="Mail" required>
+                    <div class="invalid-feedback">
+                        Ange kundens mail-adress
+                    </div>
+                    <input type="text" id="phoneNumber" class="form-control" placeholder="Phone Number" required>
+                    <div class="invalid-feedback">
+                        Ange kundens telefonnummer
+                    </div>
+                    <input type="text" id="hourlyPrice" class="form-control" placeholder="Hourly Price" required>
+                    <div class="invalid-feedback">
+                        Ange tim-pris mot kunden.
+                    </div>
                     <button id="createBtn">Add</button>
                 </form> 
             `
@@ -188,30 +225,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById("content").addEventListener("click", (event) => {
         event.preventDefault();
         if (event.target.id == "createBtn") {
-            let firstName = document.getElementById("firstName").value;
-            let lastName = document.getElementById("lastName").value;
-            let company = document.getElementById("company").value;
-            let mail = document.getElementById("mail").value;
-            let phone = document.getElementById("phoneNumber").value;
-            let hourprice = document.getElementById("hourlyPrice").value;
-
-            console.log(firstName + " " + lastName + " " + company + " " + mail + " " + phone + " " + hourprice);
-
-            let newCustomer = {
-                firstName: firstName,
-                lastName: lastName,
-                company: company,
-                mail: mail,
-                phone: phone,
-                hourPrice: hourprice
-            };
-
-            (async(input) => {
-                let postNewCustomer = await api.postData("http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/customers", input);
-                console.log(postNewCustomer);
-                customerOverview();
-            })(newCustomer);
-
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                if (form.checkValidity() === true) {
+                    addCustomer();
+                }
+                form.classList.add('was-validated');
+            },false );
         }
     });
 });
