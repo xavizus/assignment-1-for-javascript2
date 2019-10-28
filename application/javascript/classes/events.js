@@ -2,6 +2,8 @@ import * as api from '../customFunctions/api.js';
 import Settings from './settings.js';
 export { Reminder as default };
 
+/* Skriven av Robin */
+
 class Reminder {
     constructor(id, userId, date, description, content, checked) {
         this.id = id;
@@ -12,14 +14,14 @@ class Reminder {
         this.checked = checked
     }
 
-    async loadEventData(userId, i) {
-        let data = await api.getData(Settings.url + Settings.user + userId + '/' + Settings.event + i);
-        this.id = data.id;
+    async loadEventData(userId, i, events) {
+        let data = events;
+        this.id = data[i].id;
         this.userId = userId
-        this.date = data.date;
-        this.description = data.description;
-        this.content = data.content;
-        this.checked = data.checked;
+        this.date = data[i].date;
+        this.description = data[i].description;
+        this.content = data[i].content;
+        this.checked = data[i].checked;
         console.log(this.checked);
     }
 

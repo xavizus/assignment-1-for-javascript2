@@ -60,14 +60,15 @@ main #overviewTable table tbody tr td {
   cursor: pointer;
 }
 nav {
+  width: 100%;
   position: fixed;
   z-index: 99;
   background-color: white;
   grid-area: nav;
-  width: 80%;
 }
 @media screen and (min-width: 756px) {
   nav {
+    width: 80%;
     top: 0;
     right: 0;
   }
@@ -93,7 +94,7 @@ nav ul li {
     width: 32px;
     height: 32px;
     background-image: url("../images/96px/baseline_search_black_48dp.png");
-    background-color: #DDD;
+    background-color: #FFF;
     background-size: contain;
   }
   nav ul li:last-child input[type="text"] {
