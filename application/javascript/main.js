@@ -36,16 +36,19 @@ async function customerOverview() {
     /**
      * Skriven av Robin
      */
+    let allEventsObj = [];
     let allEvents = [];
     let events = await api.default(Settings.url + Settings.user + userId + '/' + Settings.event);
-    for (let i = 1; i < events.length + 1; i++) {
+    console.log(events);
+    allEvents.push(events);
+    for (let i = 0; i < events.length; i++) {
         let eventObj = new Reminder();
-        await eventObj.loadEventData(userId, i);
-        allEvents.push(eventObj);
+        await eventObj.loadEventData(userId, i, events);
+        allEventsObj.push(eventObj);
     }
 
-    for (let i = 0; i < allEvents.length; i++) {
-        allEvents[i].getEvents();
+    for (let i = 0; i < allEventsObj.length; i++) {
+        allEventsObj[i].getEvents();
     }
 
     //Slut av skriven av Robin.
