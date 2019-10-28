@@ -11,8 +11,8 @@
   grid-template-columns: 200px 1fr;
 }
 .sticky-header {
-  position: sticky;
   position: -webkit-sticky;
+  position: sticky;
   top: 0px;
   background-color: #FFF;
 }
@@ -201,21 +201,11 @@ nav ul li {
 }
 #addNewCustomerDiv {
   position: absolute;
-  bottom: 86px;
   border-radius: 5px;
-  margin-left: 20px;
+  margin-left: 100px;
   width: 20%;
   min-width: 200px;
   padding: 15px;
-}
-#addNewCustomer {
-  padding: 10px 15px 10px 15px;
-  background: #0A5990;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 16px;
-  color: #FFF;
 }
 #newCustomer > input {
   width: 100%;

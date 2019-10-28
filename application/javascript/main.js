@@ -71,29 +71,29 @@ function buildTable(user) {
     `;
 
     table += `
-    <thead class="sticky-header">
+    <thead>
     <tr>
-        <th scope="col">
+        <th scope="col" class="sticky-header">
             Name
         </th>
 
-        <th scope="col">
+        <th scope="col" class="sticky-header">
             Company
         </th>
 
-        <th scope="col">
+        <th scope="col" class="sticky-header">
             E-mail
         </th>
-        <th scope="col">
+        <th scope="col" class="sticky-header">
             Phone
         </th>
-        <th scope="col">
+        <th scope="col" class="sticky-header">
             Hourly price
         </th>
-        <th scope="col">
+        <th scope="col" class="sticky-header">
             Latest Comment
         </th>
-        <th scope="col">
+        <th scope="col" class="sticky-header">
             Last Comment Date
         </th>
     </tr>
@@ -169,10 +169,10 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
     let commentsTable = `
         <h2>Comments</h2>
         <table class="table table-striped table-sm">
-            <thead class="sticky-header">
+            <thead>
                 <tr>
-                    <th>Comment</th>
-                    <th>Created date</th>
+                    <th class="sticky-header">Comment</th>
+                    <th class="sticky-header">Created date</th>
                 </tr>
             </thead>
             <tbody>
@@ -244,11 +244,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let addNewCustomerDiv = document.createElement("div");
     addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
     document.getElementById("content").insertAdjacentElement("beforeend", addNewCustomerDiv);
-    let btn = document.createElement("button");
-    btn.setAttribute("id", "addNewCustomer");
-    let btnText = document.createTextNode("+");
-    btn.appendChild(btnText);
-    document.getElementById("addNewCustomerDiv").appendChild(btn);
+    // let btn = document.createElement("button");
+    // btn.setAttribute("id", "addNewCustomer");
+    // let btnText = document.createTextNode("+");
+    // btn.appendChild(btnText);
+    // document.getElementById("addNewCustomerDiv").appendChild(btn);
 
     let addNewCustomer = document.getElementById("customers-icon");
 
