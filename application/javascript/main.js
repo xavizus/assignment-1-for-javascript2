@@ -241,11 +241,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let addNewCustomerDiv = document.createElement("div");
     addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
     document.getElementById("content").insertAdjacentElement("beforeend", addNewCustomerDiv);
-    let btn = document.createElement("button");
-    btn.setAttribute("id", "addNewCustomer");
-    let btnText = document.createTextNode("+");
-    btn.appendChild(btnText);
-    document.getElementById("addNewCustomerDiv").appendChild(btn);
+    // let btn = document.createElement("button");
+    // btn.setAttribute("id", "addNewCustomer");
+    // let btnText = document.createTextNode("+");
+    // btn.appendChild(btnText);
+    // document.getElementById("addNewCustomerDiv").appendChild(btn);
 
     let addNewCustomer = document.getElementById("customers-icon");
 
