@@ -10,6 +10,11 @@
   grid-template-areas: "header nav" "main main";
   grid-template-columns: 200px 1fr;
 }
+.sticky-header {
+  position: sticky;
+  top: 0px;
+  background-color: #FFF;
+}
 @media screen and (max-width: 755px) {
   #container {
     grid-template-areas: "header" "main" "nav";
@@ -19,9 +24,6 @@
     position: fixed;
     left: 0;
     bottom: 0;
-  }
-  main {
-    margin-bottom: 84px;
   }
 }
 header {
@@ -39,13 +41,22 @@ header .logo {
   height: auto;
   width: auto;
 }
+#customerOverview {
+  position: absolute;
+  width: 100%;
+  top: 100px;
+  bottom: 150px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
 main {
+  margin-top: 100px;
   grid-area: main;
   white-space: nowrap;
-  position: relative;
-  overflow: auto;
   padding-bottom: 10px;
-  margin-top: 100px;
+}
+main #overviewTable table tbody tr td {
+  cursor: pointer;
 }
 nav {
   position: fixed;
@@ -114,14 +125,16 @@ nav ul li {
   width: 48px;
   height: 48px;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 #customers-icon {
-  background: url(../images/96px/baseline_supervised_user_circle_black_48dp.png);
+  background: url(../images/96px/baseline_person_add_black_48dp.png);
   display: block;
   background-size: 48px 48px;
   width: 48px;
   height: 48px;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 #calendar-icon {
   background: url(../images/96px/baseline_calendar_today_black_48dp.png);
@@ -130,6 +143,7 @@ nav ul li {
   width: 48px;
   height: 48px;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 #todo-icon {
   background: url(../images/96px/baseline_format_list_bulleted_black_48dp.png);
@@ -138,6 +152,7 @@ nav ul li {
   width: 48px;
   height: 48px;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 #search-icon {
   background: url("../images/96px/baseline_search_black_48dp.png");
@@ -146,6 +161,7 @@ nav ul li {
   width: 48px;
   height: 48px;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 .lds-ring {
   display: inline-block;
@@ -183,6 +199,8 @@ nav ul li {
   }
 }
 #addNewCustomerDiv {
+  position: absolute;
+  bottom: 86px;
   border-radius: 5px;
   margin-left: 20px;
   width: 20%;
@@ -198,7 +216,7 @@ nav ul li {
   font-size: 16px;
   color: #FFF;
 }
-#content input {
+#newCustomer > input {
   width: 100%;
   height: 30px;
   border: none;
@@ -206,7 +224,7 @@ nav ul li {
   margin-top: 10px;
   padding-left: 5px;
 }
-#content input:first-child {
+#newCustomer > input:first-child {
   margin-top: 0;
 }
 #createBtn {

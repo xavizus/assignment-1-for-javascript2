@@ -16,9 +16,8 @@ class Customer {
     }
 
     async loadCustomerData(userId) {
-        this.getCommentsForCustomer();
+        await this.getCommentsForCustomer(userId);
         let data = await api.getData(Settings.url + Settings.user + userId + '/' + Settings.customer + this.id);
-        console.log(data);
         this.firstName = data.firstName;
         this.lastName = data.lastName;
         this.company = data.company;
@@ -27,7 +26,7 @@ class Customer {
         this.hourlyPrice = data.hourPrice;
     }
 
-    async getCommentsForCustomer(userId = this.id) {
+    async getCommentsForCustomer(userId) {
         let customersComments = await api.getData(Settings.url + Settings.user + userId + '/' + Settings.customer + this.id + '/' + Settings.comment);
         for (let customersComment of customersComments) {
             this.listOfCommunications.push(new Comment(customersComment));

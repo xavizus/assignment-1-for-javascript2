@@ -1,3 +1,6 @@
+/**
+ * Skriven av Stephan Ljungros
+ */
 import Settings from './classes/settings.js';
 import User from './classes/user.js';
 import * as api from './customFunctions/api.js';
@@ -7,6 +10,7 @@ import Reminder from './classes/events.js';
 document.addEventListener("DOMContentLoaded", customerOverview);
 
 async function customerOverview() {
+    addEventListenerOnNavbar();
     let testUserName = "admin";
     let testPassword = "password";
 
@@ -29,53 +33,69 @@ async function customerOverview() {
         });
     }
 
+    /**
+     * Skriven av Robin
+     */
     let allEvents = [];
     let events = await api.default(Settings.url + Settings.user + userId + '/' + Settings.event);
-    for(let i = 1; i < events.length + 1; i++){
+    for (let i = 1; i < events.length + 1; i++) {
         let eventObj = new Reminder();
         await eventObj.loadEventData(userId, i);
         allEvents.push(eventObj);
-        
+
     }
-    
-    for(let i = 0; i < allEvents.length; i++){
-    allEvents[i].getEvents();
-}
+
+    for (let i = 0; i < allEvents.length; i++) {
+        allEvents[i].getEvents();
+    }
+
+    //Slut av skriven av Robin.
 }
 
+
+function addEventListenerOnNavbar() {
+    document.getElementById("home-icon").addEventListener("click", customerOverview);
+}
+
+/**
+ * Skriven av Stephan Ljungros
+ * @param {*} user 
+ */
 
 function buildTable(user) {
     let table = `
-    <div class="table">
+    <div id="overviewTable">
     <table class="table table-hover table-striped table-sm">
     `;
 
     table += `
+    <thead class="sticky-header">
     <tr>
         <th scope="col">
             Name
         </th>
 
-        <th cope="col">
+        <th scope="col">
             Company
         </th>
 
-        <th cope="col">
+        <th scope="col">
             E-mail
         </th>
-        <th cope="col">
+        <th scope="col">
             Phone
         </th>
-        <th cope="col">
+        <th scope="col">
             Hourly price
         </th>
-        <th cope="col">
+        <th scope="col">
             Latest Comment
         </th>
-        <th cope="col">
+        <th scope="col">
             Last Comment Date
         </th>
     </tr>
+    </thead>
     `;
 
     for (let customer of user.customers) {
@@ -107,10 +127,8 @@ function buildTable(user) {
     document.getElementById("customerOverview").insertAdjacentHTML("afterbegin", table);
 }
 
-
 async function viewCustomerCard(idOfCustomer, idOfUser) {
     loading();
-    console.log(idOfCustomer);
     let customer = new Customer(idOfCustomer);
     await customer.loadCustomerData(idOfUser);
     loading(false);
@@ -140,11 +158,37 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
         <td>Price</td>
         <td>${customer.hourlyPrice}</td>
     </tr>
-    `
+    `;
 
     table += `</table>`;
 
     document.getElementById("customerOverview").innerHTML = table;
+
+    let commentsTable = `
+        <h2>Comments</h2>
+        <table class="table table-striped table-sm">
+            <thead class="sticky-header">
+                <tr>
+                    <th>Comment</th>
+                    <th>Created date</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    for (let commentData of customer.listOfCommunications) {
+        let commentDate = new Date(commentData.date);
+        commentsTable += `
+            <tr>
+                <td>${commentData.comment}</td>
+                <td>${commentDate.toISOString().substring(0, 10)}</td>
+            </tr>
+        `;
+    }
+
+    commentsTable += `</tbody></table>`;
+
+    document.getElementById("customerOverview").insertAdjacentHTML("beforeend", commentsTable);
 }
 
 function loading(isLoading = true) {
@@ -159,6 +203,14 @@ function loading(isLoading = true) {
     document.getElementById("customerOverview").innerHTML = htmlLoadingIcon;
 }
 
+/**
+ * Slut av skriven av Stephan Ljungros
+ */
+
+
+/**
+ * Skriven av Patrik Johansson
+ */
 function addCustomer() {
     let firstName = document.getElementById("firstName").value;
     let lastName = document.getElementById("lastName").value;
@@ -186,9 +238,10 @@ function addCustomer() {
 }
 
 window.addEventListener('DOMContentLoaded', (event) => {
+
     let addNewCustomerDiv = document.createElement("div");
     addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
-    document.getElementById("content").appendChild(addNewCustomerDiv);
+    document.getElementById("content").insertAdjacentElement("beforeend", addNewCustomerDiv);
     let btn = document.createElement("button");
     btn.setAttribute("id", "addNewCustomer");
     let btnText = document.createTextNode("+");
@@ -197,40 +250,42 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     let addNewCustomer = document.getElementById("addNewCustomer");
 
+    function buildForm() {
+        let form = `
+            <form id="newCustomer" class="needs-validation" novalidate>
+                <input type="text" id="firstName" class="form-control" placeholder="Firstname" required>
+                <div class="invalid-feedback">
+                    Ange ett förnamn
+                </div>
+                <input type="text" id="lastName" class="form-control" placeholder="Lastname" required>
+                <div class="invalid-feedback">
+                    Ange ett efternamn
+                </div>
+                <input type="text" id="company" class="form-control" placeholder="Company" required>
+                <div class="invalid-feedback">
+                    Ange ett företagsnamn
+                </div>
+                <input type="text" id="mail" class="form-control" placeholder="Mail" required>
+                <div class="invalid-feedback">
+                    Ange kundens mail-adress
+                </div>
+                <input type="text" id="phoneNumber" class="form-control" placeholder="Phone Number" required>
+                <div class="invalid-feedback">
+                    Ange kundens telefonnummer
+                </div>
+                <input type="text" id="hourlyPrice" class="form-control" placeholder="Hourly Price" required>
+                <div class="invalid-feedback">
+                    Ange tim-pris mot kunden.
+                </div>
+                <button id="createBtn">Add</button>
+            </form> 
+        `
+        document.getElementById("addNewCustomerDiv").insertAdjacentHTML("beforeend", form);
+    }
+
+
     addNewCustomer.addEventListener("click", function(event) {
         document.getElementById(event.target.id).disabled = "true"; //förebygger så inte man kan trycka på add new customer -knappen flera gånger
-        function buildForm() {
-            let form = `
-                <form class="needs-validation" novalidate>
-                    <input type="text" id="firstName" class="form-control" placeholder="Firstname" required>
-                    <div class="invalid-feedback">
-                        Ange ett förnamn
-                    </div>
-                    <input type="text" id="lastName" class="form-control" placeholder="Lastname" required>
-                    <div class="invalid-feedback">
-                        Ange ett efternamn
-                    </div>
-                    <input type="text" id="company" class="form-control" placeholder="Company" required>
-                    <div class="invalid-feedback">
-                        Ange ett företagsnamn
-                    </div>
-                    <input type="text" id="mail" class="form-control" placeholder="Mail" required>
-                    <div class="invalid-feedback">
-                        Ange kundens mail-adress
-                    </div>
-                    <input type="text" id="phoneNumber" class="form-control" placeholder="Phone Number" required>
-                    <div class="invalid-feedback">
-                        Ange kundens telefonnummer
-                    </div>
-                    <input type="text" id="hourlyPrice" class="form-control" placeholder="Hourly Price" required>
-                    <div class="invalid-feedback">
-                        Ange tim-pris mot kunden.
-                    </div>
-                    <button id="createBtn">Add</button>
-                </form> 
-            `
-            document.getElementById("addNewCustomerDiv").insertAdjacentHTML("beforeend", form);
-        }
         buildForm();
         document.getElementById("addNewCustomerDiv").style.backgroundColor = "#0A5990";
         document.getElementById("addNewCustomer").style.visibility = "hidden";
@@ -245,7 +300,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     addCustomer();
                 }
                 form.classList.add('was-validated');
-            },false );
+            }, false);
         }
     });
 
