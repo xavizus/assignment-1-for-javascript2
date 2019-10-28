@@ -11,13 +11,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let addNewCustomerDiv = document.createElement("div");
     addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
     document.getElementById("content").appendChild(addNewCustomerDiv);
-    let btn = document.createElement("button");
-    btn.setAttribute("id", "addNewCustomer");
+    // let btn = document.createElement("button");
+    // btn.setAttribute("id", "addNewCustomer");
     let btnText = document.createTextNode("+");
     btn.appendChild(btnText);
     document.getElementById("addNewCustomerDiv").appendChild(btn);
 
-    let addNewCustomer = document.getElementById("addNewCustomer");
+    let addNewCustomer = document.getElementById("customers-icon");
+
 
     addNewCustomer.addEventListener("click", function(event) {
         document.getElementById(event.target.id).disabled = "true"; //förebygger så inte man kan trycka på add new customer -knappen flera gånger

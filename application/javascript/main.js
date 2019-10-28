@@ -248,7 +248,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     btn.appendChild(btnText);
     document.getElementById("addNewCustomerDiv").appendChild(btn);
 
-    let addNewCustomer = document.getElementById("addNewCustomer");
+    let addNewCustomer = document.getElementById("customers-icon");
 
     function buildForm() {
         let form = `
