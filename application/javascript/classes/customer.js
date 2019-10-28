@@ -31,6 +31,10 @@ class Customer {
         for (let customersComment of customersComments) {
             this.listOfCommunications.push(new Comment(customersComment));
         }
+
+        this.listOfCommunications.sort(function(a, b) {
+            return new Date(a.date) < new Date(b.date);
+        });
     }
 
     getLatestComment() {

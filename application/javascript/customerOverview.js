@@ -42,7 +42,6 @@ async function customerOverview() {
         let eventObj = new Reminder();
         await eventObj.loadEventData(userId, i);
         allEvents.push(eventObj);
-
     }
 
     for (let i = 0; i < allEvents.length; i++) {
