@@ -57,10 +57,16 @@ let todoList = {
         this.displayTodos();
     }   
 };
+
+todoList.addTodo("item 1");
     
+let displayTodosButton = document.getElementById("displayTodosButton");
+let toggleAllButton = document.getElementById("toggleAllButton");
 
+displayTodosButton.addEventListener("click", function() {
+    todoList.displayTodos();
+});
 
-
-todoList.addTodo("item");
-todoList.addTodo("item2");
-todoList.toggleAll();
+toggleAllButton.addEventListener("click", function() {
+    todoList.toggleAll();
+});
