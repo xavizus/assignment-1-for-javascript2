@@ -166,6 +166,22 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
 
     document.getElementById("customerOverview").innerHTML = table;
 
+    /**
+     * Skriven av Moohammaad
+     */
+    let commentForm = `
+        <form id="commentForm" userId="${idOfUser}" customerId="${idOfCustomer}">
+            <textarea name="textarea" id="textarea" placeholder="Comment here..." cols="30" rows="10" required></textarea>
+            <button id="btn" >Skicka</button>
+        </form>
+    `;
+
+    document.getElementById("customerOverview").insertAdjacentHTML("beforeend", commentForm);
+
+    /**
+     * Skriven av Stephan
+     */
+
     let commentsTable = `
         <h2>Comments</h2>
         <table class="table table-striped table-sm">
