@@ -176,14 +176,68 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
     /**
      * Skriven av Moohammaad
      */
+
+    //Form (Stephan har lagt till tillgänglighets riktlinjer. (Om du missat skriva kommentar så ska det tydligt visas.))
     let commentForm = `
-        <form id="commentForm" userId="${idOfUser}" customerId="${idOfCustomer}">
-            <textarea name="textarea" id="textarea" placeholder="Comment here..." cols="30" rows="10" required></textarea>
-            <button id="btn" >Skicka</button>
+        <form id="addComment" class="needs-validation" novalidate>
+            <textarea class="form-control" name="textarea" id="textarea" placeholder="Comment here..." cols="30" rows="10" required></textarea>
+            <div class="invalid-feedback">
+                    Add a comment!
+                </div>
+                <div class="valid-feedback">
+                   Valid!
+                </div>
+            <button id="btn" class="btn btn-primary" type="submit" >Add Comment</button>
         </form>
     `;
 
+    // Add the form to the page.
     document.getElementById("customerOverview").insertAdjacentHTML("beforeend", commentForm);
+
+    //Add listener for the click event.
+    document.getElementById("content").addEventListener('click', event => {
+
+        //Prevent to reload the webbrowser.
+        event.preventDefault();
+
+        // if the target with id is equal to btn.
+        if (event.target.id === "btn") {
+
+            //find all forms that need validation. (Probably overkill, when we know it's just one form.)
+            let forms = document.getElementsByClassName("needs-validation");
+
+            //Loop through all forms that's found
+            for (let form of forms) {
+
+                //Check if the form is filled (checks if required is filled)
+                if (form.checkValidity() === true) {
+
+                    //Get data from the textarea.
+                    let textarea = document.getElementById("textarea");
+
+                    //Anonumous function that's called directly.
+                    (async() => {
+
+                        //Packing our data to an object.
+                        let newComment = {
+                            name: `${customer.firstName} ${customer.lastName}`,
+                            comment: textarea.value,
+                            date: new Date()
+                        };
+
+                        //Posting data to the api.
+                        let postComment = await api.postData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/${idOfUser}/customers/${idOfUser}/comment`, newComment);
+                        console.log(postComment);
+                        console.log(newComment.date);
+
+                    })();
+                }
+
+                //This marks the form as validated, which also make sure to inform the user if the user missed to fill something, by making the class invalid-feedback, visible.
+                form.classList.add('was-validated');
+            }
+        }
+    });
 
     /**
      * Skriven av Stephan
