@@ -7,9 +7,36 @@ import * as api from './customFunctions/api.js';
 import Customer from './classes/customer.js';
 import Reminder from './classes/events.js';
 
-document.addEventListener("DOMContentLoaded", customerOverview);
+document.addEventListener("DOMContentLoaded", main);
 
-async function customerOverview() {
+document.addEventListener("DOMContentLoaded", events);
+
+/**
+ * Skriven av Robin
+ */
+
+async function events() {
+
+    let allEventsObj = [];
+    let allEvents = [];
+    let events = await api.default(Settings.url + Settings.user + userId + '/' + Settings.event);
+    console.log(events);
+    allEvents.push(events);
+    for (let i = 0; i < events.length; i++) {
+        let eventObj = new Reminder();
+        await eventObj.loadEventData(userId, i, events);
+        allEventsObj.push(eventObj);
+    }
+
+    for (let i = 0; i < allEventsObj.length; i++) {
+        allEventsObj[i].getEvents();
+    }
+
+}
+
+//Slut av skriven av Robin.
+
+async function main() {
     addEventListenerOnNavbar();
     let testUserName = "admin";
     let testPassword = "password";
@@ -32,31 +59,11 @@ async function customerOverview() {
             viewCustomerCard(customerId, userId);
         });
     }
-
-    /**
-     * Skriven av Robin
-     */
-    let allEventsObj = [];
-    let allEvents = [];
-    let events = await api.default(Settings.url + Settings.user + userId + '/' + Settings.event);
-    console.log(events);
-    allEvents.push(events);
-    for (let i = 0; i < events.length; i++) {
-        let eventObj = new Reminder();
-        await eventObj.loadEventData(userId, i, events);
-        allEventsObj.push(eventObj);
-    }
-
-    for (let i = 0; i < allEventsObj.length; i++) {
-        allEventsObj[i].getEvents();
-    }
-
-    //Slut av skriven av Robin.
 }
 
 
 function addEventListenerOnNavbar() {
-    document.getElementById("home-icon").addEventListener("click", customerOverview);
+    document.getElementById("home-icon").addEventListener("click", main);
 }
 
 /**
@@ -251,7 +258,7 @@ function addCustomer() {
     (async(input) => {
         let postNewCustomer = await api.postData("http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/customers", input);
         console.log(postNewCustomer);
-        customerOverview();
+        main();
     })(newCustomer);
 }
 
