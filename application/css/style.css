@@ -19,7 +19,7 @@
 #customerOverview {
   position: absolute;
   width: 100%;
-  top: 84px;
+  top: 70px;
   bottom: 0px;
   overflow-y: auto;
   overflow-x: auto;
@@ -49,7 +49,7 @@ header {
 }
 header .logo {
   display: block;
-  max-height: 84px;
+  max-height: 70px;
   height: auto;
   width: auto;
 }
@@ -83,6 +83,7 @@ nav ul {
   text-decoration: none;
   list-style-type: none;
   justify-content: space-between;
+  margin-bottom: 0px;
 }
 nav ul li {
   padding: 10px;
@@ -104,6 +105,7 @@ nav ul li {
     font-size: 17px;
     border: none;
     padding: 6px;
+    border-radius: 5px;
   }
 }
 @media screen and (max-width: 755px) {
