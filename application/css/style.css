@@ -119,6 +119,13 @@ nav ul li {
     background-repeat: no-repeat;
     background-size: contain;
   }
+  nav ul #addNewCustomerDiv {
+    left: 0;
+    bottom: 80px;
+    width: 100%;
+    min-width: 200px;
+    padding: 15px;
+  }
 }
 #home-icon {
   background: url(../images/96px/baseline_home_black_48dp.png);
@@ -202,8 +209,8 @@ nav ul li {
 }
 #addNewCustomerDiv {
   position: absolute;
+  margin-top: 60px;
   border-radius: 5px;
-  margin-left: 100px;
   width: 20%;
   min-width: 200px;
   padding: 15px;

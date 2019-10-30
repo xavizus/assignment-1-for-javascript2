@@ -147,6 +147,13 @@ nav {
                 background-repeat: no-repeat;
                 background-size: contain;
             }
+            #addNewCustomerDiv {
+                left: 0;
+                bottom: 80px;
+                width: 100%;
+                min-width: 200px;
+                padding: 15px;
+            }
         }
 
     }
@@ -227,39 +234,16 @@ nav {
     100% {
     transform: rotate(360deg);
     }
-<<<<<<< HEAD
 }
 
 #addNewCustomerDiv {
-    position: absolute;
-    bottom: 86px;
+    position: absolute; //absolute bryr sig bara om sin egna förälder. Med absolute så är den ändå relative till den. Men absolute till alla andra divar.
+    margin-top: 60px;
     border-radius: 5px;
-    margin-left: 20px;
     width: 20%;
     min-width: 200px;
     padding: 15px;
 }
-
-  #addNewCustomer { //första knappen
-    padding: 10px 15px 10px 15px;
-    background: @mainColor2;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 16px;
-    color: @backgroundColor1;
-}
-=======
-  }
-
-  #addNewCustomerDiv {
-      position: absolute;
-      border-radius: 5px;
-      margin-left: 100px;
-      width: 20%;
-      min-width: 200px;
-      padding: 15px;
-  }
 
 //   #addNewCustomer { //första knappen
 //     padding: 10px 15px 10px 15px;
@@ -269,8 +253,7 @@ nav {
 //     text-decoration: none;
 //     font-size: 16px;
 //     color: @backgroundColor1;
-//   }
->>>>>>> b124b3057904d119b573062dfc7844f51ce8ba5c
+// }
 
 #newCustomer > input {
     width: 100%;
