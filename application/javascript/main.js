@@ -7,9 +7,36 @@ import * as api from './customFunctions/api.js';
 import Customer from './classes/customer.js';
 import Reminder from './classes/events.js';
 
-document.addEventListener("DOMContentLoaded", customerOverview);
+document.addEventListener("DOMContentLoaded", main);
 
-async function customerOverview() {
+document.addEventListener("DOMContentLoaded", events);
+
+/**
+ * Skriven av Robin
+ */
+
+async function events() {
+
+    let allEventsObj = [];
+    let allEvents = [];
+    let events = await api.default(Settings.url + Settings.user + userId + '/' + Settings.event);
+    console.log(events);
+    allEvents.push(events);
+    for (let i = 0; i < events.length; i++) {
+        let eventObj = new Reminder();
+        await eventObj.loadEventData(userId, i, events);
+        allEventsObj.push(eventObj);
+    }
+
+    for (let i = 0; i < allEventsObj.length; i++) {
+        allEventsObj[i].getEvents();
+    }
+
+}
+
+//Slut av skriven av Robin.
+
+async function main() {
     addEventListenerOnNavbar();
     let testUserName = "admin";
     let testPassword = "password";
@@ -32,31 +59,11 @@ async function customerOverview() {
             viewCustomerCard(customerId, userId);
         });
     }
-
-    /**
-     * Skriven av Robin
-     */
-    let allEventsObj = [];
-    let allEvents = [];
-    let events = await api.default(Settings.url + Settings.user + userId + '/' + Settings.event);
-    console.log(events);
-    allEvents.push(events);
-    for (let i = 0; i < events.length; i++) {
-        let eventObj = new Reminder();
-        await eventObj.loadEventData(userId, i, events);
-        allEventsObj.push(eventObj);
-    }
-
-    for (let i = 0; i < allEventsObj.length; i++) {
-        allEventsObj[i].getEvents();
-    }
-
-    //Slut av skriven av Robin.
 }
 
 
 function addEventListenerOnNavbar() {
-    document.getElementById("home-icon").addEventListener("click", customerOverview);
+    document.getElementById("home-icon").addEventListener("click", main);
 }
 
 /**
@@ -166,6 +173,76 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
 
     document.getElementById("customerOverview").innerHTML = table;
 
+    /**
+     * Skriven av Moohammaad
+     */
+
+    //Form (Stephan har lagt till tillgänglighets riktlinjer. (Om du missat skriva kommentar så ska det tydligt visas.))
+    let commentForm = `
+        <form id="addComment" class="needs-validation" novalidate>
+            <textarea class="form-control" name="textarea" id="textarea" placeholder="Comment here..." cols="30" rows="10" required></textarea>
+            <div class="invalid-feedback">
+                    Add a comment!
+                </div>
+                <div class="valid-feedback">
+                   Valid!
+                </div>
+            <button id="btn" class="btn btn-primary" type="submit" >Add Comment</button>
+        </form>
+    `;
+
+    // Add the form to the page.
+    document.getElementById("customerOverview").insertAdjacentHTML("beforeend", commentForm);
+
+    //Add listener for the click event.
+    document.getElementById("content").addEventListener('click', event => {
+
+        //Prevent to reload the webbrowser.
+        event.preventDefault();
+
+        // if the target with id is equal to btn.
+        if (event.target.id === "btn") {
+
+            //find all forms that need validation. (Probably overkill, when we know it's just one form.)
+            let forms = document.getElementsByClassName("needs-validation");
+
+            //Loop through all forms that's found
+            for (let form of forms) {
+
+                //Check if the form is filled (checks if required is filled)
+                if (form.checkValidity() === true) {
+
+                    //Get data from the textarea.
+                    let textarea = document.getElementById("textarea");
+
+                    //Anonumous function that's called directly.
+                    (async() => {
+
+                        //Packing our data to an object.
+                        let newComment = {
+                            name: `${customer.firstName} ${customer.lastName}`,
+                            comment: textarea.value,
+                            date: new Date()
+                        };
+
+                        //Posting data to the api.
+                        let postComment = await api.postData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/${idOfUser}/customers/${idOfUser}/comment`, newComment);
+                        console.log(postComment);
+                        console.log(newComment.date);
+
+                    })();
+                }
+
+                //This marks the form as validated, which also make sure to inform the user if the user missed to fill something, by making the class invalid-feedback, visible.
+                form.classList.add('was-validated');
+            }
+        }
+    });
+
+    /**
+     * Skriven av Stephan
+     */
+
     let commentsTable = `
         <h2>Comments</h2>
         <table class="table table-striped table-sm">
@@ -235,7 +312,7 @@ function addCustomer() {
     (async(input) => {
         let postNewCustomer = await api.postData("http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/customers", input);
         console.log(postNewCustomer);
-        customerOverview();
+        main();
     })(newCustomer);
 }
 
