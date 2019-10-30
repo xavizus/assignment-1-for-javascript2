@@ -32,6 +32,10 @@ class Customer {
             this.listOfCommunications.push(new Comment(customersComment));
         }
 
+        this.sortCommentList();
+    }
+
+    sortCommentList() {
         this.listOfCommunications.sort(function(a, b) {
             return new Date(a.date) < new Date(b.date);
         });

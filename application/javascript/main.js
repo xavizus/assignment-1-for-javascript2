@@ -7,9 +7,33 @@ import * as api from './customFunctions/api.js';
 import Customer from './classes/customer.js';
 import Reminder from './classes/events.js';
 
-document.addEventListener("DOMContentLoaded", customerOverview);
+document.addEventListener("DOMContentLoaded", main);
+/**
+ * Skriven av Robin
+ */
 
-async function customerOverview() {
+async function events(userId) {
+
+    let allEventsObj = [];
+    let allEvents = [];
+    let events = await api.default(Settings.url + Settings.user + userId + '/' + Settings.event);
+    console.log(events);
+    allEvents.push(events);
+    for (let i = 0; i < events.length; i++) {
+        let eventObj = new Reminder();
+        await eventObj.loadEventData(userId, i, events);
+        allEventsObj.push(eventObj);
+    }
+
+    for (let i = 0; i < allEventsObj.length; i++) {
+        allEventsObj[i].getEvents();
+    }
+
+}
+
+//Slut av skriven av Robin.
+
+async function main() {
     addEventListenerOnNavbar();
     let testUserName = "admin";
     let testPassword = "password";
@@ -33,30 +57,12 @@ async function customerOverview() {
         });
     }
 
-    /**
-     * Skriven av Robin
-     */
-    let allEventsObj = [];
-    let allEvents = [];
-    let events = await api.default(Settings.url + Settings.user + userId + '/' + Settings.event);
-    console.log(events);
-    allEvents.push(events);
-    for (let i = 0; i < events.length; i++) {
-        let eventObj = new Reminder();
-        await eventObj.loadEventData(userId, i, events);
-        allEventsObj.push(eventObj);
-    }
-
-    for (let i = 0; i < allEventsObj.length; i++) {
-        allEventsObj[i].getEvents();
-    }
-
-    //Slut av skriven av Robin.
+    events(userId)
 }
 
 
 function addEventListenerOnNavbar() {
-    document.getElementById("home-icon").addEventListener("click", customerOverview);
+    document.getElementById("home-icon").addEventListener("click", main);
 }
 
 /**
@@ -166,9 +172,100 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
 
     document.getElementById("customerOverview").innerHTML = table;
 
-    let commentsTable = `
+    /**
+     * Skriven av Moohammaad
+     */
+
+    //Form (Stephan har lagt till tillgänglighets riktlinjer. (Om du missat skriva kommentar så ska det tydligt visas.))
+    let commentForm = `
+        <form id="addComment" class="needs-validation" novalidate>
+            <textarea class="form-control" name="textarea" id="textarea" placeholder="Comment here..." cols="30" rows="10" required></textarea>
+            <div class="invalid-feedback">
+                    Add a comment!
+                </div>
+                <div class="valid-feedback">
+                   Valid!
+                </div>
+            <button id="btn" class="btn btn-primary" type="submit" >Add Comment</button>
+        </form>
+
         <h2>Comments</h2>
-        <table class="table table-striped table-sm">
+    `;
+
+    // Add the form to the page.
+    document.getElementById("customerOverview").insertAdjacentHTML("beforeend", commentForm);
+
+    //Add listener for the click event.
+    document.getElementById("content").addEventListener('click', event => {
+
+        //Prevent to reload the webbrowser.
+        event.preventDefault();
+
+        // if the target with id is equal to btn.
+        if (event.target.id === "btn") {
+
+            //find all forms that need validation. (Probably overkill, when we know it's just one form.)
+            let forms = document.getElementsByClassName("needs-validation");
+
+            //Loop through all forms that's found
+            for (let form of forms) {
+
+                //Check if the form is filled (checks if required is filled)
+                if (form.checkValidity() === true) {
+
+                    //Get data from the textarea.
+                    let textarea = document.getElementById("textarea");
+
+                    //Anonumous function that's called directly.
+                    (async() => {
+
+                        //Packing our data to an object.
+                        let newComment = {
+                            name: `${customer.firstName} ${customer.lastName}`,
+                            comment: textarea.value,
+                            date: new Date()
+                        };
+
+                        //Posting data to the api.
+                        let postComment = await api.postData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/${idOfUser}/customers/${idOfUser}/comment`, newComment);
+
+                        console.log(postComment);
+                        console.log(newComment.date);
+
+                        //Added by Stephan for reloading the comment list.
+                        //Pushing the new comment to our current list.
+                        customer.listOfCommunications.push(newComment);
+                        //sort the comment list.
+                        customer.sortCommentList();
+                        //Load our customer comments.
+                        loadComments(customer);
+                        // End of added code from Stephan.
+                    })();
+                }
+
+                //This marks the form as validated, which also make sure to inform the user if the user missed to fill something, by making the class invalid-feedback, visible.
+                form.classList.add('was-validated');
+            }
+        }
+    });
+
+    loadComments(customer);
+
+
+}
+
+/**
+ * Skriven av Stephan
+ */
+
+function loadComments(customer) {
+
+    if (document.getElementById("commentTable")) {
+        document.getElementById("commentTable").remove();
+    }
+
+    let commentsTable = `
+        <table id="commentTable" class="table table-striped table-sm">
             <thead>
                 <tr>
                     <th class="sticky-header">Comment</th>
@@ -235,15 +332,13 @@ function addCustomer() {
     (async(input) => {
         let postNewCustomer = await api.postData("http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/customers", input);
         console.log(postNewCustomer);
-        customerOverview();
+        main();
     })(newCustomer);
 }
 
 window.addEventListener('DOMContentLoaded', (event) => {
 
-    let addNewCustomerDiv = document.createElement("div");
-    addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
-    document.getElementById("content").insertAdjacentElement("beforeend", addNewCustomerDiv);
+    
     // let btn = document.createElement("button");
     // btn.setAttribute("id", "addNewCustomer");
     // let btnText = document.createTextNode("+");
@@ -287,24 +382,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     addNewCustomer.addEventListener("click", function(event) {
-        document.getElementById(event.target.id).disabled = "true"; //förebygger så inte man kan trycka på add new customer -knappen flera gånger
-        buildForm();
-        document.getElementById("addNewCustomerDiv").style.backgroundColor = "#0A5990";
-        document.getElementById("addNewCustomer").style.visibility = "hidden";
-        document.getElementById("addNewCustomer").style.position = "absolute";
+        if (event.target.id == "customers-icon") {
+            if (!document.getElementById("addNewCustomerDiv")) {
+                let addNewCustomerDiv = document.createElement("div");
+                addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
+                document.getElementById("customers-icon").insertAdjacentElement("beforeend", addNewCustomerDiv);
+                document.getElementById(event.target.id).disabled = "true"; //förebygger så inte man kan trycka på add new customer -knappen flera gånger
+                buildForm();
+                document.getElementById("addNewCustomerDiv").style.backgroundColor = "#0A5990";
+            } else {
+                document.getElementById("addNewCustomerDiv").remove();
+            }
+        }
     });
-    document.getElementById("content").addEventListener("click", (event) => {
+    document.getElementById("customers-icon").addEventListener("click", (event) => {
         event.preventDefault();
         if (event.target.id == "createBtn") {
             var forms = document.getElementsByClassName('needs-validation');
             var validation = Array.prototype.filter.call(forms, function(form) {
                 if (form.checkValidity() === true) {
                     addCustomer();
+                    document.getElementById("addNewCustomerDiv").remove();
                 }
                 form.classList.add('was-validated');
             }, false);
         }
     });
-
-
 });
