@@ -8,14 +8,11 @@ import Customer from './classes/customer.js';
 import Reminder from './classes/events.js';
 
 document.addEventListener("DOMContentLoaded", main);
-
-document.addEventListener("DOMContentLoaded", events);
-
 /**
  * Skriven av Robin
  */
 
-async function events() {
+async function events(userId) {
 
     let allEventsObj = [];
     let allEvents = [];
@@ -59,6 +56,8 @@ async function main() {
             viewCustomerCard(customerId, userId);
         });
     }
+
+    events(userId)
 }
 
 
@@ -189,6 +188,8 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
                 </div>
             <button id="btn" class="btn btn-primary" type="submit" >Add Comment</button>
         </form>
+
+        <h2>Comments</h2>
     `;
 
     // Add the form to the page.
@@ -227,9 +228,18 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
 
                         //Posting data to the api.
                         let postComment = await api.postData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/${idOfUser}/customers/${idOfUser}/comment`, newComment);
+
                         console.log(postComment);
                         console.log(newComment.date);
 
+                        //Added by Stephan for reloading the comment list.
+                        //Pushing the new comment to our current list.
+                        customer.listOfCommunications.push(newComment);
+                        //sort the comment list.
+                        customer.sortCommentList();
+                        //Load our customer comments.
+                        loadComments(customer);
+                        // End of added code from Stephan.
                     })();
                 }
 
@@ -239,13 +249,23 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
         }
     });
 
-    /**
-     * Skriven av Stephan
-     */
+    loadComments(customer);
+
+
+}
+
+/**
+ * Skriven av Stephan
+ */
+
+function loadComments(customer) {
+
+    if (document.getElementById("commentTable")) {
+        document.getElementById("commentTable").remove();
+    }
 
     let commentsTable = `
-        <h2>Comments</h2>
-        <table class="table table-striped table-sm">
+        <table id="commentTable" class="table table-striped table-sm">
             <thead>
                 <tr>
                     <th class="sticky-header">Comment</th>
