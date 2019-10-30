@@ -338,9 +338,7 @@ function addCustomer() {
 
 window.addEventListener('DOMContentLoaded', (event) => {
 
-    let addNewCustomerDiv = document.createElement("div");
-    addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
-    document.getElementById("content").insertAdjacentElement("beforeend", addNewCustomerDiv);
+    
     // let btn = document.createElement("button");
     // btn.setAttribute("id", "addNewCustomer");
     // let btnText = document.createTextNode("+");
@@ -384,24 +382,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
     addNewCustomer.addEventListener("click", function(event) {
-        document.getElementById(event.target.id).disabled = "true"; //förebygger så inte man kan trycka på add new customer -knappen flera gånger
-        buildForm();
-        document.getElementById("addNewCustomerDiv").style.backgroundColor = "#0A5990";
-        document.getElementById("addNewCustomer").style.visibility = "hidden";
-        document.getElementById("addNewCustomer").style.position = "absolute";
+        if (event.target.id == "customers-icon") {
+            if (!document.getElementById("addNewCustomerDiv")) {
+                let addNewCustomerDiv = document.createElement("div");
+                addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
+                document.getElementById("customers-icon").insertAdjacentElement("beforeend", addNewCustomerDiv);
+                document.getElementById(event.target.id).disabled = "true"; //förebygger så inte man kan trycka på add new customer -knappen flera gånger
+                buildForm();
+                document.getElementById("addNewCustomerDiv").style.backgroundColor = "#0A5990";
+            } else {
+                document.getElementById("addNewCustomerDiv").remove();
+            }
+        }
     });
-    document.getElementById("content").addEventListener("click", (event) => {
+    document.getElementById("customers-icon").addEventListener("click", (event) => {
         event.preventDefault();
         if (event.target.id == "createBtn") {
             var forms = document.getElementsByClassName('needs-validation');
             var validation = Array.prototype.filter.call(forms, function(form) {
                 if (form.checkValidity() === true) {
                     addCustomer();
+                    document.getElementById("addNewCustomerDiv").remove();
                 }
                 form.classList.add('was-validated');
             }, false);
         }
     });
-
-
 });

@@ -38,7 +38,7 @@ class Reminder {
         console.log(this.content)
 
             if (thisDate.toISOString().substring(0, 10) == currentDate || currentDateMil > thisDateMil) {
-                alert(this.content);
+                //alert(this.content);
                 data.checked = true;
             }
         }
