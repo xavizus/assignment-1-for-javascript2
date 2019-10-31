@@ -16,13 +16,15 @@
   top: 0px;
   background-color: #FFF;
 }
-#customerOverview {
+#customersOverview,
+#customerCard {
   position: absolute;
   width: 100%;
   top: 70px;
   bottom: 0px;
   overflow-y: auto;
   overflow-x: auto;
+  white-space: normal;
 }
 @media screen and (max-width: 755px) {
   #container {
@@ -34,7 +36,8 @@
     left: 0;
     bottom: 0;
   }
-  #customerOverview {
+  #customersOverview,
+  #customerCard {
     bottom: 84px;
   }
 }

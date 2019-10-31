@@ -33,6 +33,11 @@ async function events(userId) {
 
 //Slut av skriven av Robin.
 
+/**
+ * Skriven av Stephan Ljungros
+ * @param {*} user 
+ */
+
 async function main() {
     addEventListenerOnNavbar();
     let testUserName = "admin";
@@ -53,7 +58,7 @@ async function main() {
     for (let element of elements) {
         element.addEventListener("click", (event) => {
             let customerId = event.target.parentNode.attributes.data.nodeValue;
-            viewCustomerCard(customerId, userId);
+            viewCustomerCard(currentUser.customers, customerId, userId);
         });
     }
 
@@ -64,11 +69,6 @@ async function main() {
 function addEventListenerOnNavbar() {
     document.getElementById("home-icon").addEventListener("click", main);
 }
-
-/**
- * Skriven av Stephan Ljungros
- * @param {*} user 
- */
 
 function buildTable(user) {
     let table = `
@@ -132,13 +132,26 @@ function buildTable(user) {
     }
     table += `</table> </div>`;
 
-    document.getElementById("customerOverview").insertAdjacentHTML("afterbegin", table);
+    if(!document.getElementById("customersOverview")) {
+        document.getElementById("customerCard").remove();
+        let customersOverview = document.createElement("div");
+        customersOverview.setAttribute("id","customersOverview");
+        document.getElementById("content").insertAdjacentElement("beforeend",customersOverview);
+    }
+    document.getElementById("customersOverview").insertAdjacentHTML("afterbegin", table);
 }
 
-async function viewCustomerCard(idOfCustomer, idOfUser) {
+async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
+    document.getElementById("customersOverview").remove();
+    let customerCard = document.createElement("div");
+    customerCard.setAttribute("id","customerCard");
+    document.getElementById("content").insertAdjacentElement("beforeend",customerCard);
     loading();
-    let customer = new Customer(idOfCustomer);
-    await customer.loadCustomerData(idOfUser);
+    let customer = customers.find( (currentCustomer)=> {
+        if(currentCustomer.id == idOfCustomer) {
+            return currentCustomer;
+        }
+    });
     loading(false);
 
     let table = `
@@ -170,7 +183,7 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
 
     table += `</table>`;
 
-    document.getElementById("customerOverview").innerHTML = table;
+    document.getElementById("customerCard").innerHTML = table;
 
     /**
      * Skriven av Moohammaad
@@ -193,7 +206,7 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
     `;
 
     // Add the form to the page.
-    document.getElementById("customerOverview").insertAdjacentHTML("beforeend", commentForm);
+    document.getElementById("customerCard").insertAdjacentHTML("beforeend", commentForm);
 
     //Add listener for the click event.
     document.getElementById("content").addEventListener('click', event => {
@@ -287,7 +300,7 @@ function loadComments(customer) {
 
     commentsTable += `</tbody></table>`;
 
-    document.getElementById("customerOverview").insertAdjacentHTML("beforeend", commentsTable);
+    document.getElementById("customerCard").insertAdjacentHTML("beforeend", commentsTable);
 }
 
 function loading(isLoading = true) {
@@ -299,7 +312,7 @@ function loading(isLoading = true) {
         return;
     }
     let htmlLoadingIcon = `<div class="lds-ring loading"><div></div><div></div><div></div><div></div></div>`;
-    document.getElementById("customerOverview").innerHTML = htmlLoadingIcon;
+    document.getElementById("content").insertAdjacentHTML("afterbegin",htmlLoadingIcon);
 }
 
 /**

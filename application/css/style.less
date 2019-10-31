@@ -29,13 +29,14 @@
     background-color: #FFF;
 }
 
-#customerOverview {
+#customersOverview, #customerCard {
     position: absolute;
     width: 100%;
     top: @logoHeight;
     bottom: 0px;
     overflow-y:auto;
     overflow-x: auto;
+    white-space: normal;
 }
 
 @media screen and (max-width: 755px) {
@@ -52,7 +53,7 @@
         left: 0;
         bottom: 0;
     }
-    #customerOverview {
+    #customersOverview, #customerCard {
         bottom: 84px;
     }
 }
@@ -84,6 +85,7 @@ main {
         cursor: pointer;
     }
 }
+
 nav {
     width: 100%;
     @media screen and (min-width: 756px) {
@@ -240,18 +242,6 @@ nav {
     100% {
     transform: rotate(360deg);
     }
-<<<<<<< HEAD
-  }
-
-  #addNewCustomerDiv {
-      position: absolute;
-      border-radius: 5px;
-      margin-left: 100px;
-      width: 20%;
-      min-width: 200px;
-      padding: 15px;
-  }
-=======
 }
 
 #addNewCustomerDiv {
@@ -262,7 +252,6 @@ nav {
     min-width: 200px;
     padding: 15px;
 }
->>>>>>> d7816f9dbc99fc599fec1e7d9c89fe482fafb38b
 
 //   #addNewCustomer { //första knappen
 //     padding: 10px 15px 10px 15px;
@@ -272,11 +261,7 @@ nav {
 //     text-decoration: none;
 //     font-size: 16px;
 //     color: @backgroundColor1;
-<<<<<<< HEAD
-//   }
-=======
 // }
->>>>>>> d7816f9dbc99fc599fec1e7d9c89fe482fafb38b
 
 #newCustomer > input {
     width: 100%;
