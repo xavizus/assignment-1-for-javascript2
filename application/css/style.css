@@ -16,13 +16,15 @@
   top: 0px;
   background-color: #FFF;
 }
-#customerOverview {
+#customersOverview,
+#customerCard {
   position: absolute;
   width: 100%;
   top: 70px;
   bottom: 0px;
   overflow-y: auto;
   overflow-x: auto;
+  white-space: normal;
 }
 @media screen and (max-width: 755px) {
   #container {
@@ -34,7 +36,8 @@
     left: 0;
     bottom: 0;
   }
-  #customerOverview {
+  #customersOverview,
+  #customerCard {
     bottom: 84px;
   }
 }
@@ -131,6 +134,18 @@ nav ul li {
     min-width: 200px;
     padding: 15px;
   }
+}
+.invalid-feedback {
+  font-weight: bold;
+  color: #FFF !important;
+}
+.btn {
+  background-color: #0A5990 !important;
+  border-color: #0A5990 !important;
+}
+.btn:hover {
+  background-color: #073c60 !important;
+  border-color: #073c60 !important;
 }
 #home-icon {
   background: url(../images/96px/baseline_home_white_48dp.png);
@@ -240,4 +255,7 @@ nav ul li {
   font-size: 16px;
   color: #FFF;
   margin-top: 10px;
+}
+#createBtn:focus {
+  outline: none;
 }
