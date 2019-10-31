@@ -40,6 +40,8 @@ async function events(userId) {
 
 async function main() {
     addEventListenerOnNavbar();
+
+    //No security Risk here!
     let testUserName = "admin";
     let testPassword = "password";
 
@@ -133,7 +135,6 @@ function buildTable(user) {
     table += `</table> </div>`;
 
     if(!document.getElementById("customersOverview")) {
-        document.getElementById("customerCard").remove();
         let customersOverview = document.createElement("div");
         customersOverview.setAttribute("id","customersOverview");
         document.getElementById("content").insertAdjacentElement("beforeend",customersOverview);
@@ -142,10 +143,6 @@ function buildTable(user) {
 }
 
 async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
-    document.getElementById("customersOverview").remove();
-    let customerCard = document.createElement("div");
-    customerCard.setAttribute("id","customerCard");
-    document.getElementById("content").insertAdjacentElement("beforeend",customerCard);
     loading();
     let customer = customers.find( (currentCustomer)=> {
         if(currentCustomer.id == idOfCustomer) {
@@ -153,6 +150,10 @@ async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
         }
     });
     loading(false);
+
+    let customerCard = document.createElement("div");
+    customerCard.setAttribute("id","customerCard");
+    document.getElementById("content").insertAdjacentElement("beforeend",customerCard);
 
     let table = `
     <table class="table table-striped table-sm">
@@ -312,7 +313,7 @@ function loading(isLoading = true) {
         return;
     }
     let htmlLoadingIcon = `<div class="lds-ring loading"><div></div><div></div><div></div><div></div></div>`;
-    document.getElementById("content").insertAdjacentHTML("afterbegin",htmlLoadingIcon);
+    document.getElementById("content").innerHTML = htmlLoadingIcon;
 }
 
 /**

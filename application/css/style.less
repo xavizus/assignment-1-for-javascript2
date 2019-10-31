@@ -167,6 +167,20 @@ nav {
     }
 }
 
+.invalid-feedback {
+    font-weight: bold;
+    color: @backgroundColor1 !important;
+}
+
+.btn {
+    background-color: @mainColor2 !important;
+    border-color:  @mainColor2 !important
+}
+
+.btn:hover {
+    background-color: darken(@mainColor2,10%) !important;
+    border-color: darken(@mainColor2,10%) !important;
+}
 
 
 #icons() {
@@ -285,4 +299,8 @@ nav {
     font-size: 16px;
     color: @backgroundColor1;
     margin-top: 10px;
+}
+
+#createBtn:focus {
+    outline: none;
 }

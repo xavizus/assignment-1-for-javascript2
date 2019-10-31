@@ -135,6 +135,18 @@ nav ul li {
     padding: 15px;
   }
 }
+.invalid-feedback {
+  font-weight: bold;
+  color: #FFF !important;
+}
+.btn {
+  background-color: #0A5990 !important;
+  border-color: #0A5990 !important;
+}
+.btn:hover {
+  background-color: #073c60 !important;
+  border-color: #073c60 !important;
+}
 #home-icon {
   background: url(../images/96px/baseline_home_white_48dp.png);
   display: block;
@@ -243,4 +255,7 @@ nav ul li {
   font-size: 16px;
   color: #FFF;
   margin-top: 10px;
+}
+#createBtn:focus {
+  outline: none;
 }
