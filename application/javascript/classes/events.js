@@ -36,8 +36,7 @@ class Reminder {
         console.log(currentDateMil);
         console.log(this.content);
 
-        if (thisDate.toISOString().substring(0, 10) == currentDate || currentDateMil > thisDateMil) {
-            //alert(this.content);
+        if (thisDate.toISOString().substring(0, 10) == currentDate || currentDateMil > thisDateMil) {            
 
             if (this.checked == false) {
                 let updateEventObject = {
