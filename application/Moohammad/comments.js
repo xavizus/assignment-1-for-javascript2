@@ -7,7 +7,7 @@
 
 */
 
-import * as api from "../application/javascript/customFunctions/api.js"
+import * as api from "../javascript/customFunctions/api.js"
 
 //referens
 let textarea = document.getElementById("textarea");
@@ -21,7 +21,7 @@ function getComment() {
     if(nameInput.value  === "" || textarea.value === ""){
         alert("Fill in the empty forms!");
     }
-     else {
+    else {
         (async () => {
             let newComment = {
                 name: nameInput.value,
@@ -35,9 +35,6 @@ function getComment() {
         })();
         
     }
-
- 
-     
 }
 
 
