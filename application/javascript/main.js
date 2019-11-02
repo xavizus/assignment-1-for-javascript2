@@ -4,13 +4,9 @@
 import Settings from './classes/settings.js';
 import User from './classes/user.js';
 import * as api from './customFunctions/api.js';
-import Customer from './classes/customer.js';
 import Reminder from './classes/events.js';
 
-document.addEventListener("DOMContentLoaded", main);
-
-document.addEventListener("DOMContentLoaded", events);
-
+document.addEventListener("DOMContentLoaded", loadCache);
 /**
  * Skriven av Robin
  */
@@ -41,20 +37,32 @@ async function events() {
  * @param {*} user 
  */
 
-async function main() {
+ function loadCache() {
     addEventListenerOnNavbar();
-
-    //No security Risk here!
-    let testUserName = "admin";
-    let testPassword = "password";
 
     let cachedData = JSON.parse(window.localStorage.getItem("user"));
 
     if(cachedData != null) {
         buildTable(new User(cachedData.id, cachedData));
+        let elements = document.getElementsByClassName('clickAble');
+        for (let element of elements) {
+            element.addEventListener("click", (event) => {
+                let customerId = event.target.parentNode.attributes.data.nodeValue;
+                viewCustomerCard(cachedData.customers, customerId, cachedData.id);
+            });
+        }
     } else {
         loading();
     }
+
+    main();
+ }
+
+async function main() {
+    //No security Risk here!
+    let testUserName = "admin";
+    let testPassword = "password";
+
     let userId = await api.getUserIdByFirstNameAndLastName(Settings.url + Settings.user, testUserName, testPassword);
     let currentUser = new User(userId);
     await currentUser.getUserData();
@@ -62,7 +70,9 @@ async function main() {
     await currentUser.getCustomerComments(userId);
     loading(false);
 
-    buildTable(currentUser);
+    if(!document.getElementById("customerCard")) {
+        buildTable(currentUser);
+    }
 
     var elements = document.getElementsByClassName('clickAble');
 
@@ -81,7 +91,7 @@ async function main() {
 
 
 function addEventListenerOnNavbar() {
-    document.getElementById("home-icon").addEventListener("click", main);
+    document.getElementById("home-icon").addEventListener("click", loadCache);
 }
 
 function buildTable(user) {
@@ -337,7 +347,7 @@ function addCustomer() {
     (async(input) => {
         let postNewCustomer = await api.postData("http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/customers", input);
         console.log(postNewCustomer);
-        main();
+        loadCache();
     })(newCustomer);
 }
 
