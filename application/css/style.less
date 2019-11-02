@@ -32,7 +32,7 @@
 #customersOverview, #customerCard {
     position: absolute;
     width: 100%;
-    top: @logoHeight;
+    top: calc(@logoHeight + 60px);
     bottom: 0px;
     overflow-y:auto;
     overflow-x: auto;
@@ -72,6 +72,7 @@ header {
         max-height: @logoHeight;
         height: auto;
         width: auto;
+        margin: 30px;
     }
 }
 
@@ -91,6 +92,7 @@ nav {
     @media screen and (min-width: 756px) {
         top: 0;
         right: 0;
+        padding: 30px 0px 30px 0px;
     }
     z-index: 99;
     background-color: @mainColor2;

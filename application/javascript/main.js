@@ -110,14 +110,11 @@ function buildTable(user) {
 
     for (let customer of user.customers) {
         let latestComment = customer.getLatestComment();
-        if (latestComment === undefined) {
-            latestComment = {
-                comment: "No comments exists",
-                date: new Date()
-            };
-        }
-
-        let latestCommentDate = new Date(latestComment.date);
+        
+        // Replace date with "--" if no date exisits.
+        let latestCommentDate = (latestComment.date != null) ? 
+        new Date(latestComment.date).toISOString().substring(0, 10) : 
+        "--";
 
         table += `
         <tr class="clickAble" data="${customer.id}">
@@ -127,7 +124,7 @@ function buildTable(user) {
             <td>${customer.phoneNumber}</td>
             <td>${customer.hourlyPrice}</td>
             <td>${latestComment.comment}</td>
-            <td>${latestCommentDate.toISOString().substring(0, 10)}</td>
+            <td>${latestCommentDate}</td>
         </tr>
         `;
 
@@ -241,10 +238,7 @@ async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
                         };
 
                         //Posting data to the api.
-                        let postComment = await api.postData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/${idOfUser}/customers/${idOfUser}/comment`, newComment);
-
-                        console.log(postComment);
-                        console.log(newComment.date);
+                        let postComment = await api.postData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/${idOfUser}/customers/${idOfCustomer}/comment`, newComment);
 
                         //Added by Stephan for reloading the comment list.
                         //Pushing the new comment to our current list.
