@@ -4,15 +4,14 @@
 import Settings from './classes/settings.js';
 import User from './classes/user.js';
 import * as api from './customFunctions/api.js';
-import Customer from './classes/customer.js';
 import Reminder from './classes/events.js';
 
-document.addEventListener("DOMContentLoaded", main);
+document.addEventListener("DOMContentLoaded", loadCache);
 /**
  * Skriven av Robin
  */
 
-async function events(userId) {
+async function events() {
 
     let allEventsObj = [];
     let allEvents = [];
@@ -38,14 +37,32 @@ async function events(userId) {
  * @param {*} user 
  */
 
-async function main() {
+ function loadCache() {
     addEventListenerOnNavbar();
 
+    let cachedData = JSON.parse(window.localStorage.getItem("user"));
+
+    if(cachedData != null) {
+        buildTable(new User(cachedData.id, cachedData));
+        let elements = document.getElementsByClassName('clickAble');
+        for (let element of elements) {
+            element.addEventListener("click", (event) => {
+                let customerId = event.target.parentNode.attributes.data.nodeValue;
+                viewCustomerCard(cachedData.customers, customerId, cachedData.id);
+            });
+        }
+    } else {
+        loading();
+    }
+
+    main();
+ }
+
+async function main() {
     //No security Risk here!
     let testUserName = "admin";
     let testPassword = "password";
 
-    loading();
     let userId = await api.getUserIdByFirstNameAndLastName(Settings.url + Settings.user, testUserName, testPassword);
     let currentUser = new User(userId);
     await currentUser.getUserData();
@@ -53,7 +70,9 @@ async function main() {
     await currentUser.getCustomerComments(userId);
     loading(false);
 
-    buildTable(currentUser);
+    if(!document.getElementById("customerCard")) {
+        buildTable(currentUser);
+    }
 
     var elements = document.getElementsByClassName('clickAble');
 
@@ -64,15 +83,21 @@ async function main() {
         });
     }
 
-    events(userId)
+    //events(userId);
+
+    window.localStorage.setItem("user", JSON.stringify(currentUser));
+
 }
 
 
 function addEventListenerOnNavbar() {
-    document.getElementById("home-icon").addEventListener("click", main);
+    document.getElementById("home-icon").addEventListener("click", loadCache);
 }
 
 function buildTable(user) {
+    if (document.getElementById("customerCard")){
+        document.getElementById("customerCard").remove();
+    }
     let table = `
     <div id="overviewTable">
     <table class="table table-hover table-striped table-sm">
@@ -135,6 +160,8 @@ function buildTable(user) {
         let customersOverview = document.createElement("div");
         customersOverview.setAttribute("id","customersOverview");
         document.getElementById("content").insertAdjacentElement("beforeend",customersOverview);
+    } else {
+        document.getElementById("customersOverview").innerHTML = "";
     }
     document.getElementById("customersOverview").insertAdjacentHTML("afterbegin", table);
 }
@@ -199,7 +226,6 @@ async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
                 </div>
             <button id="btn" class="btn btn-primary" type="submit" >Add Comment</button>
         </form>
-
         <h2>Comments</h2>
     `;
 
@@ -256,21 +282,20 @@ async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
             }
         }
     });
-
     loadComments(customer);
-
 
 }
 
-/**
- * Skriven av Stephan
- */
+    /**
+     * Skriven av Stephan
+     */
 
-function loadComments(customer) {
+    function loadComments(customer) {
 
-    if (document.getElementById("commentTable")) {
-        document.getElementById("commentTable").remove();
-    }
+        if (document.getElementById("commentTable")) {
+            document.getElementById("commentTable").remove();
+        }
+    
 
     let commentsTable = `
         <table id="commentTable" class="table table-striped table-sm">
@@ -340,7 +365,7 @@ function addCustomer() {
     (async(input) => {
         let postNewCustomer = await api.postData("http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/customers", input);
         console.log(postNewCustomer);
-        main();
+        loadCache();
     })(newCustomer);
 }
 

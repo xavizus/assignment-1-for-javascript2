@@ -50,8 +50,12 @@
 
     nav {
         position: fixed;
-        left: 0;
         bottom: 0;
+
+        ul {
+            display: flex;
+            justify-content: space-around;
+        }
     }
     #customersOverview, #customerCard {
         bottom: 84px;
@@ -103,7 +107,6 @@ nav {
         align-items: center;
         text-decoration: none;
         list-style-type: none;
-        //justify-content: space-between;
         margin-bottom: 0px;
 
         li {
@@ -159,7 +162,7 @@ nav {
     #icons();
 }
 
-#calendar-icon {
+#reminder-icon {
     background: url(./../images/96px/baseline_calendar_today_white_48dp.png);
     #icons();
 }
