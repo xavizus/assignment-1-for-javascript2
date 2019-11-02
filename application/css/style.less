@@ -3,6 +3,7 @@
 @backgroundColor1: #FFF;
 @backgroundColor2: #000;
 @fontColor: #000;
+@logoHeight: 70px;
 
 * {
     padding: 0;
@@ -28,6 +29,16 @@
     background-color: #FFF;
 }
 
+#customersOverview, #customerCard {
+    position: absolute;
+    width: 100%;
+    top: calc(@logoHeight + 60px);
+    bottom: 0px;
+    overflow-y:auto;
+    overflow-x: auto;
+    white-space: normal;
+}
+
 @media screen and (max-width: 755px) {
     #container {
         grid-template-areas:
@@ -42,32 +53,27 @@
         left: 0;
         bottom: 0;
     }
+    #customersOverview, #customerCard {
+        bottom: 84px;
+    }
 }
 
 
 header {
         z-index: 99;
-        background-color: white;
-        position: fixed;
+        background-color: @mainColor2;
+        position: relative;
         width: 100%;
         left: 0;
         top: 0;
         grid-area: header;
     .logo {
         display: block;
-        max-height: 100px;
+        max-height: @logoHeight;
         height: auto;
         width: auto;
+        margin: 30px;
     }
-}
-
-#customerOverview {
-    position: absolute;
-    width: 100%;
-    top: 100px;
-    bottom: 150px;
-    overflow-y:auto;
-    overflow-x: auto;
 }
 
 main {
@@ -80,16 +86,16 @@ main {
         cursor: pointer;
     }
 }
+
 nav {
     width: 100%;
     @media screen and (min-width: 756px) {
-        width: 80%;
         top: 0;
         right: 0;
+        padding: 30px 0px 30px 0px;
     }
-    position: fixed;
     z-index: 99;
-    background-color: white;
+    background-color: @mainColor2;
     grid-area: nav;
     ul {
         display: flex;
@@ -97,61 +103,41 @@ nav {
         align-items: center;
         text-decoration: none;
         list-style-type: none;
-        justify-content: space-between;
+        //justify-content: space-between;
+        margin-bottom: 0px;
 
         li {
             padding: 10px;
             text-decoration: none;
         }
 
-        @media screen and (min-width: 756px) {
-            li:last-child {
-                button[type=submit] {
-                    font-size: 17px;
-                    float: right;
-                    border: none;
-                    cursor: pointer;
-
-                    width: 32px;
-                    height: 32px;
-                    background-image: url("./../images/96px/baseline_search_black_48dp.png");
-                    background-color: #FFF;
-                    background-size: contain;
-                }
-
-                input[type="text"] {
-                    font-size: 17px;
-                    border: none;
-                    padding: 6px;
-                }
-
-
-            }
-        }
-
         @media screen and (max-width: 755px) {
-            li:last-child {
-                input[type="text"] {
-                    display: none;
-                }
-            }
-            button[type=submit] {
-                background-color: #FFF;
-                font-size: 17px;
-                float: right;
-                border: none;
-                cursor: pointer;
-                width: 48px;
-                height: 48px;
-                background-image: url("./../images/96px/baseline_search_black_48dp.png");
-                background-repeat: no-repeat;
-                background-size: contain;
+            #addNewCustomerDiv {
+                left: 0;
+                bottom: 80px;
+                width: 100%;
+                min-width: 200px;
+                padding: 15px;
             }
         }
 
     }
 }
 
+.invalid-feedback {
+    font-weight: bold;
+    color: @backgroundColor1 !important;
+}
+
+.btn {
+    background-color: @mainColor2 !important;
+    border-color:  @mainColor2 !important
+}
+
+.btn:hover {
+    background-color: darken(@mainColor2,10%) !important;
+    border-color: darken(@mainColor2,10%) !important;
+}
 
 
 #icons() {
@@ -164,27 +150,27 @@ nav {
 }
 
 #home-icon {
-    background: url(./../images/96px/baseline_home_black_48dp.png);
+    background: url(./../images/96px/baseline_home_white_48dp.png);
     #icons();
 }
 
 #customers-icon {
-    background: url(./../images/96px/baseline_person_add_black_48dp.png);
+    background: url(./../images/96px/baseline_person_add_white_48dp.png);
     #icons();
 }
 
 #calendar-icon {
-    background: url(./../images/96px/baseline_calendar_today_black_48dp.png);
+    background: url(./../images/96px/baseline_calendar_today_white_48dp.png);
     #icons();
 }
 
 #todo-icon {
-    background: url(./../images/96px/baseline_format_list_bulleted_black_48dp.png);
+    background: url(./../images/96px/baseline_format_list_bulleted_white_48dp.png);
     #icons();
 }
 
 #search-icon {
-    background: url("./../images/96px/baseline_search_black_48dp.png");
+    background: url("./../images/96px/baseline_search_white_48dp.png");
     #icons();
 }
 
@@ -227,39 +213,16 @@ nav {
     100% {
     transform: rotate(360deg);
     }
-<<<<<<< HEAD
 }
 
 #addNewCustomerDiv {
-    position: absolute;
-    bottom: 86px;
+    position: absolute; //absolute bryr sig bara om sin egna förälder. Med absolute så är den ändå relative till den. Men absolute till alla andra divar.
+    margin-top: 60px;
     border-radius: 5px;
-    margin-left: 20px;
     width: 20%;
     min-width: 200px;
     padding: 15px;
 }
-
-  #addNewCustomer { //första knappen
-    padding: 10px 15px 10px 15px;
-    background: @mainColor2;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 16px;
-    color: @backgroundColor1;
-}
-=======
-  }
-
-  #addNewCustomerDiv {
-      position: absolute;
-      border-radius: 5px;
-      margin-left: 100px;
-      width: 20%;
-      min-width: 200px;
-      padding: 15px;
-  }
 
 //   #addNewCustomer { //första knappen
 //     padding: 10px 15px 10px 15px;
@@ -269,8 +232,7 @@ nav {
 //     text-decoration: none;
 //     font-size: 16px;
 //     color: @backgroundColor1;
-//   }
->>>>>>> b124b3057904d119b573062dfc7844f51ce8ba5c
+// }
 
 #newCustomer > input {
     width: 100%;
@@ -294,4 +256,8 @@ nav {
     font-size: 16px;
     color: @backgroundColor1;
     margin-top: 10px;
+}
+
+#createBtn:focus {
+    outline: none;
 }

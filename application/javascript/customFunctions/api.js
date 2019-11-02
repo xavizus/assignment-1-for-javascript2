@@ -11,6 +11,19 @@ export async function postData(url, objectData) {
     return await response.json();
 }
 
+export async function updateData(url,objectData) {
+
+    let response = await fetch(url, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(objectData)
+    });
+
+    return await response.json();
+}
+
 export async function getData(url) {
     let response = await fetch(url);
     return await response.json();

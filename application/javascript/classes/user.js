@@ -31,6 +31,13 @@ class User {
         await Promise.all(this.customers.map (async customer => {
             await customer.getCommentsForCustomer(this.id);
         }));
+        this.sortCustomers();
+    }
+
+    sortCustomers() {
+        this.customers.sort((a, b) => {
+            return new Date(a.latestComment.date) < new Date(b.latestComment.date);
+        });
     }
 
 }

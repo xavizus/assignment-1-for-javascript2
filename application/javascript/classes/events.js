@@ -26,7 +26,6 @@ class Reminder {
     }
 
     async getEvents() {
-        let data = await api.getData(Settings.url + Settings.user + this.userId + '/' + Settings.event + this.id);
         let newDate = new Date();
         let currentDate = newDate.toISOString().substring(0, 10);
         let currentDateMil = newDate.getTime();
@@ -35,12 +34,18 @@ class Reminder {
         let thisDateMil = thisDate.getTime();
         console.log(thisDateMil);
         console.log(currentDateMil);
-        console.log(this.content)
+        console.log(this.content);
 
-            if (thisDate.toISOString().substring(0, 10) == currentDate || currentDateMil > thisDateMil) {
-                alert(this.content);
-                data.checked = true;
+        if (thisDate.toISOString().substring(0, 10) == currentDate || currentDateMil > thisDateMil) {            
+
+            if (this.checked == false) {
+                let updateEventObject = {
+                    checked: true
+                };
+                api.updateData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/events/${this.id}`, updateEventObject);
+                alert(this.description + "\n" + this.content);
             }
         }
-    
+    }
+
 }

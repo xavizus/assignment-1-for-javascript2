@@ -13,6 +13,10 @@ class Customer {
         this.phoneNumber = phonenumber;
         this.hourlyPrice = hourlyPrice;
         this.listOfCommunications = [];
+        this.latestComment = {
+            date: null,
+            comment: null
+        };
     }
 
     async loadCustomerData(userId) {
@@ -31,8 +35,12 @@ class Customer {
         for (let customersComment of customersComments) {
             this.listOfCommunications.push(new Comment(customersComment));
         }
+        this.getLatestComment();
+        this.sortCommentList();
+    }
 
-        this.listOfCommunications.sort(function(a, b) {
+    sortCommentList() {
+        this.listOfCommunications.sort((a, b) => {
             return new Date(a.date) < new Date(b.date);
         });
     }
@@ -46,6 +54,16 @@ class Customer {
                 latestCommentIndex = comment;
             }
         }
+
+        if (this.listOfCommunications[latestCommentIndex] === undefined) {
+            this.listOfCommunications[latestCommentIndex] = {
+                comment: "No comments exists",
+                date: null
+            };
+        }
+        this.latestComment.date = this.listOfCommunications[latestCommentIndex].date;
+
+        this.latestComment.comment = this.listOfCommunications[latestCommentIndex].comment;
 
         return this.listOfCommunications[latestCommentIndex];
     }

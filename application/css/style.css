@@ -16,6 +16,16 @@
   top: 0px;
   background-color: #FFF;
 }
+#customersOverview,
+#customerCard {
+  position: absolute;
+  width: 100%;
+  top: calc(70px + 60px);
+  bottom: 0px;
+  overflow-y: auto;
+  overflow-x: auto;
+  white-space: normal;
+}
 @media screen and (max-width: 755px) {
   #container {
     grid-template-areas: "header" "main" "nav";
@@ -26,11 +36,15 @@
     left: 0;
     bottom: 0;
   }
+  #customersOverview,
+  #customerCard {
+    bottom: 84px;
+  }
 }
 header {
   z-index: 99;
-  background-color: white;
-  position: fixed;
+  background-color: #0A5990;
+  position: relative;
   width: 100%;
   left: 0;
   top: 0;
@@ -38,17 +52,10 @@ header {
 }
 header .logo {
   display: block;
-  max-height: 100px;
+  max-height: 70px;
   height: auto;
   width: auto;
-}
-#customerOverview {
-  position: absolute;
-  width: 100%;
-  top: 100px;
-  bottom: 150px;
-  overflow-y: auto;
-  overflow-x: auto;
+  margin: 30px;
 }
 main {
   margin-top: 100px;
@@ -61,16 +68,15 @@ main #overviewTable table tbody tr td {
 }
 nav {
   width: 100%;
-  position: fixed;
   z-index: 99;
-  background-color: white;
+  background-color: #0A5990;
   grid-area: nav;
 }
 @media screen and (min-width: 756px) {
   nav {
-    width: 80%;
     top: 0;
     right: 0;
+    padding: 30px 0px 30px 0px;
   }
 }
 nav ul {
@@ -79,49 +85,35 @@ nav ul {
   align-items: center;
   text-decoration: none;
   list-style-type: none;
-  justify-content: space-between;
+  margin-bottom: 0px;
 }
 nav ul li {
   padding: 10px;
   text-decoration: none;
 }
-@media screen and (min-width: 756px) {
-  nav ul li:last-child button[type=submit] {
-    font-size: 17px;
-    float: right;
-    border: none;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    background-image: url("../images/96px/baseline_search_black_48dp.png");
-    background-color: #FFF;
-    background-size: contain;
-  }
-  nav ul li:last-child input[type="text"] {
-    font-size: 17px;
-    border: none;
-    padding: 6px;
+@media screen and (max-width: 755px) {
+  nav ul #addNewCustomerDiv {
+    left: 0;
+    bottom: 80px;
+    width: 100%;
+    min-width: 200px;
+    padding: 15px;
   }
 }
-@media screen and (max-width: 755px) {
-  nav ul li:last-child input[type="text"] {
-    display: none;
-  }
-  nav ul button[type=submit] {
-    background-color: #FFF;
-    font-size: 17px;
-    float: right;
-    border: none;
-    cursor: pointer;
-    width: 48px;
-    height: 48px;
-    background-image: url("../images/96px/baseline_search_black_48dp.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
+.invalid-feedback {
+  font-weight: bold;
+  color: #FFF !important;
+}
+.btn {
+  background-color: #0A5990 !important;
+  border-color: #0A5990 !important;
+}
+.btn:hover {
+  background-color: #073c60 !important;
+  border-color: #073c60 !important;
 }
 #home-icon {
-  background: url(../images/96px/baseline_home_black_48dp.png);
+  background: url(../images/96px/baseline_home_white_48dp.png);
   display: block;
   background-size: 48px 48px;
   width: 48px;
@@ -130,7 +122,7 @@ nav ul li {
   cursor: pointer;
 }
 #customers-icon {
-  background: url(../images/96px/baseline_person_add_black_48dp.png);
+  background: url(../images/96px/baseline_person_add_white_48dp.png);
   display: block;
   background-size: 48px 48px;
   width: 48px;
@@ -139,7 +131,7 @@ nav ul li {
   cursor: pointer;
 }
 #calendar-icon {
-  background: url(../images/96px/baseline_calendar_today_black_48dp.png);
+  background: url(../images/96px/baseline_calendar_today_white_48dp.png);
   display: block;
   background-size: 48px 48px;
   width: 48px;
@@ -148,7 +140,7 @@ nav ul li {
   cursor: pointer;
 }
 #todo-icon {
-  background: url(../images/96px/baseline_format_list_bulleted_black_48dp.png);
+  background: url(../images/96px/baseline_format_list_bulleted_white_48dp.png);
   display: block;
   background-size: 48px 48px;
   width: 48px;
@@ -157,7 +149,7 @@ nav ul li {
   cursor: pointer;
 }
 #search-icon {
-  background: url("../images/96px/baseline_search_black_48dp.png");
+  background: url("../images/96px/baseline_search_white_48dp.png");
   display: block;
   background-size: 48px 48px;
   width: 48px;
@@ -202,8 +194,8 @@ nav ul li {
 }
 #addNewCustomerDiv {
   position: absolute;
+  margin-top: 60px;
   border-radius: 5px;
-  margin-left: 100px;
   width: 20%;
   min-width: 200px;
   padding: 15px;
@@ -228,4 +220,7 @@ nav ul li {
   font-size: 16px;
   color: #FFF;
   margin-top: 10px;
+}
+#createBtn:focus {
+  outline: none;
 }
