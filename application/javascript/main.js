@@ -46,7 +46,7 @@ async function main() {
     let testPassword = "password";
 
     let cachedData = JSON.parse(window.localStorage.getItem("user"));
-    
+
     if(cachedData != null) {
         buildTable(new User(cachedData.id, cachedData));
     } else {
@@ -82,6 +82,9 @@ function addEventListenerOnNavbar() {
 }
 
 function buildTable(user) {
+    if (document.getElementById("customerCard")){
+        document.getElementById("customerCard").remove();
+    }
     let table = `
     <div id="overviewTable">
     <table class="table table-hover table-striped table-sm">
