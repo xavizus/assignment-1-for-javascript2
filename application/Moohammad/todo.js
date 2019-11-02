@@ -36,7 +36,7 @@ let todoList = {
         this.displayTodos();
     },
     toggleAll() {
-        totalTodos = this.todos.length;
+        let totalTodos = this.todos.length;
         let completedTodos = 0;
 
         for(let i = 0; i < totalTodos; i++) {
@@ -102,22 +102,8 @@ let handlers = {
 
 let view = {
     displayTodos: function() {
-        let todosUl = document.querySelector("ul");
-        todosUl.innerHTML = "";
-        for(let i = 0; i < todoList.todos.length; i++) {
-            let todoLi = document.createElement("li");
-            let todo = todoList.todos[i];
-            let todoTextWithCompletion = "";
-
-            if(todo.completed === true) {
-                todoTextWithCompletion = "(x) " + todo.todoText;
-            } else {
-                todoTextWithCompletion = "( ) " + todo.todoText;
-            }
-
-            todoLi.textContent = todoList.todos[i].todoText;
-            todosUl.appendChild(todoLi);
-        }
+        todosUl = document.querySelector("ul");
+        todoLi = document.createElement("li");
+        todosUl.appendChild();
     }    
 };
-
