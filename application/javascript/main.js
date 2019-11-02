@@ -83,7 +83,7 @@ async function main() {
         });
     }
 
-    events(userId);
+    //events(userId);
 
     window.localStorage.setItem("user", JSON.stringify(currentUser));
 
@@ -226,6 +226,7 @@ async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
                 </div>
             <button id="btn" class="btn btn-primary" type="submit" >Add Comment</button>
         </form>
+        <h2>Comments</h2>
     `;
 
     // Add the form to the page.
@@ -265,6 +266,14 @@ async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
                         //Posting data to the api.
                         let postComment = await api.postData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/${idOfUser}/customers/${idOfCustomer}/comment`, newComment);
 
+                        //Added by Stephan for reloading the comment list.
+                        //Pushing the new comment to our current list.
+                        customer.listOfCommunications.push(newComment);
+                        //sort the comment list.
+                        customer.sortCommentList();
+                        //Load our customer comments.
+                        loadComments(customer);
+                        // End of added code from Stephan.
                     })();
                 }
 
@@ -273,14 +282,23 @@ async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
             }
         }
     });
+    loadComments(customer);
+
+}
 
     /**
      * Skriven av Stephan
      */
 
+    function loadComments(customer) {
+
+        if (document.getElementById("commentTable")) {
+            document.getElementById("commentTable").remove();
+        }
+    
+
     let commentsTable = `
-        <h2>Comments</h2>
-        <table class="table table-striped table-sm">
+        <table id="commentTable" class="table table-striped table-sm">
             <thead>
                 <tr>
                     <th class="sticky-header">Comment</th>
