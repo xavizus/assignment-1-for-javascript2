@@ -128,7 +128,7 @@ nav ul li {
   background-repeat: no-repeat;
   cursor: pointer;
 }
-#calendar-icon {
+#reminder-icon {
   background: url(../images/96px/baseline_calendar_today_white_48dp.png);
   display: block;
   background-size: 48px 48px;
