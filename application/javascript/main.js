@@ -45,7 +45,13 @@ async function main() {
     let testUserName = "admin";
     let testPassword = "password";
 
-    loading();
+    let cachedData = JSON.parse(window.localStorage.getItem("user"));
+    
+    if(cachedData != null) {
+        buildTable(new User(cachedData.id, cachedData));
+    } else {
+        loading();
+    }
     let userId = await api.getUserIdByFirstNameAndLastName(Settings.url + Settings.user, testUserName, testPassword);
     let currentUser = new User(userId);
     await currentUser.getUserData();
@@ -64,7 +70,10 @@ async function main() {
         });
     }
 
-    events(userId)
+    events(userId);
+
+    window.localStorage.setItem("user", JSON.stringify(currentUser));
+
 }
 
 
@@ -135,6 +144,8 @@ function buildTable(user) {
         let customersOverview = document.createElement("div");
         customersOverview.setAttribute("id","customersOverview");
         document.getElementById("content").insertAdjacentElement("beforeend",customersOverview);
+    } else {
+        document.getElementById("customersOverview").innerHTML = "";
     }
     document.getElementById("customersOverview").insertAdjacentHTML("afterbegin", table);
 }

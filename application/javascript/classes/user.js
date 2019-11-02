@@ -4,12 +4,22 @@ import Customer from './customer.js';
 export { User as default };
 
 class User {
-    constructor(userId) {
+    constructor(userId, cachedData = null) {
         this.id = userId;
-        this.firstName = "";
-        this.lastName = "";
-        this.userName = "";
         this.customers = [];
+        if(cachedData == null) {
+            this.firstName = "";
+            this.lastName = "";
+            this.userName = "";
+        }
+        else {
+            this.firstName = cachedData.firstName;
+            this.lastName = cachedData.lastName;
+            this.userName = cachedData.userName;
+            for(let customer of cachedData.customers) {
+                this.customers.push(new Customer(customer));
+            }
+        }
     }
 
     async getUserData() {
@@ -22,7 +32,7 @@ class User {
     async getCustomers() {
         let customers = await api.default(Settings.url + 'users/' + this.id + '/customers');
         for (let customer of customers) {
-            this.customers.push(new Customer(customer.id, customer.firstName, customer.lastName, customer.company, customer.mail, customer.phone, customer.hourPrice));
+            this.customers.push(new Customer(customer));
 
         }
     }
