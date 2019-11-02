@@ -4,15 +4,37 @@ import Comment from './comments.js';
 export { Customer as default };
 
 class Customer {
-    constructor(id, firstName, lastName = null, company = null, email = null, phonenumber = null, hourlyPrice = 0, listOfCommunications = null) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.company = company;
-        this.email = email;
-        this.phoneNumber = phonenumber;
-        this.hourlyPrice = hourlyPrice;
-        this.listOfCommunications = [];
+    constructor(newCustomer) {
+        if(newCustomer == undefined) {
+            this.id = null;
+            this.firstName = null;
+            this.lastName = null;
+            this.company = null;
+            this.email = null;
+            this.phoneNumber = null;
+            this.hourlyPrice = null;
+        } else {
+            this.id = newCustomer.id;
+            this.firstName = newCustomer.firstName;
+            this.lastName = newCustomer.lastName;
+            this.company = newCustomer.company;
+            this.email = newCustomer.mail || newCustomer.email;
+            this.phoneNumber = newCustomer.phone || newCustomer.phoneNumber;
+            this.hourlyPrice = newCustomer.hourPrice || newCustomer.hourlyPrice;
+
+            if(newCustomer.listOfCommunications == undefined || newCustomer.latestComment == undefined)   {
+                this.listOfCommunications = [];
+                this.latestComment = {
+                    date: null,
+                    comment: null
+             };
+            }
+            else {
+                this.listOfCommunications = newCustomer.listOfCommunications;
+                this.latestComment = newCustomer.latestComment;
+            }
+        }
+
     }
 
     async loadCustomerData(userId) {
@@ -31,12 +53,12 @@ class Customer {
         for (let customersComment of customersComments) {
             this.listOfCommunications.push(new Comment(customersComment));
         }
-
+        this.getLatestComment();
         this.sortCommentList();
     }
 
     sortCommentList() {
-        this.listOfCommunications.sort(function(a, b) {
+        this.listOfCommunications.sort((a, b) => {
             return new Date(a.date) < new Date(b.date);
         });
     }
@@ -50,6 +72,16 @@ class Customer {
                 latestCommentIndex = comment;
             }
         }
+
+        if (this.listOfCommunications[latestCommentIndex] === undefined) {
+            this.listOfCommunications[latestCommentIndex] = {
+                comment: "No comments exists",
+                date: null
+            };
+        }
+        this.latestComment.date = this.listOfCommunications[latestCommentIndex].date;
+
+        this.latestComment.comment = this.listOfCommunications[latestCommentIndex].comment;
 
         return this.listOfCommunications[latestCommentIndex];
     }

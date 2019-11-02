@@ -36,12 +36,25 @@ async function events() {
 
 //Slut av skriven av Robin.
 
+/**
+ * Skriven av Stephan Ljungros
+ * @param {*} user 
+ */
+
 async function main() {
     addEventListenerOnNavbar();
+
+    //No security Risk here!
     let testUserName = "admin";
     let testPassword = "password";
 
-    loading();
+    let cachedData = JSON.parse(window.localStorage.getItem("user"));
+
+    if(cachedData != null) {
+        buildTable(new User(cachedData.id, cachedData));
+    } else {
+        loading();
+    }
     let userId = await api.getUserIdByFirstNameAndLastName(Settings.url + Settings.user, testUserName, testPassword);
     let currentUser = new User(userId);
     await currentUser.getUserData();
@@ -56,9 +69,14 @@ async function main() {
     for (let element of elements) {
         element.addEventListener("click", (event) => {
             let customerId = event.target.parentNode.attributes.data.nodeValue;
-            viewCustomerCard(customerId, userId);
+            viewCustomerCard(currentUser.customers, customerId, userId);
         });
     }
+
+    events(userId);
+
+    window.localStorage.setItem("user", JSON.stringify(currentUser));
+
 }
 
 
@@ -66,12 +84,10 @@ function addEventListenerOnNavbar() {
     document.getElementById("home-icon").addEventListener("click", main);
 }
 
-/**
- * Skriven av Stephan Ljungros
- * @param {*} user 
- */
-
 function buildTable(user) {
+    if (document.getElementById("customerCard")){
+        document.getElementById("customerCard").remove();
+    }
     let table = `
     <div id="overviewTable">
     <table class="table table-hover table-striped table-sm">
@@ -109,14 +125,11 @@ function buildTable(user) {
 
     for (let customer of user.customers) {
         let latestComment = customer.getLatestComment();
-        if (latestComment === undefined) {
-            latestComment = {
-                comment: "No comments exists",
-                date: new Date()
-            };
-        }
-
-        let latestCommentDate = new Date(latestComment.date);
+        
+        // Replace date with "--" if no date exisits.
+        let latestCommentDate = (latestComment.date != null) ? 
+        new Date(latestComment.date).toISOString().substring(0, 10) : 
+        "--";
 
         table += `
         <tr class="clickAble" data="${customer.id}">
@@ -126,21 +139,35 @@ function buildTable(user) {
             <td>${customer.phoneNumber}</td>
             <td>${customer.hourlyPrice}</td>
             <td>${latestComment.comment}</td>
-            <td>${latestCommentDate.toISOString().substring(0, 10)}</td>
+            <td>${latestCommentDate}</td>
         </tr>
         `;
 
     }
     table += `</table> </div>`;
 
-    document.getElementById("customerOverview").insertAdjacentHTML("afterbegin", table);
+    if(!document.getElementById("customersOverview")) {
+        let customersOverview = document.createElement("div");
+        customersOverview.setAttribute("id","customersOverview");
+        document.getElementById("content").insertAdjacentElement("beforeend",customersOverview);
+    } else {
+        document.getElementById("customersOverview").innerHTML = "";
+    }
+    document.getElementById("customersOverview").insertAdjacentHTML("afterbegin", table);
 }
 
-async function viewCustomerCard(idOfCustomer, idOfUser) {
+async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
     loading();
-    let customer = new Customer(idOfCustomer);
-    await customer.loadCustomerData(idOfUser);
+    let customer = customers.find( (currentCustomer)=> {
+        if(currentCustomer.id == idOfCustomer) {
+            return currentCustomer;
+        }
+    });
     loading(false);
+
+    let customerCard = document.createElement("div");
+    customerCard.setAttribute("id","customerCard");
+    document.getElementById("content").insertAdjacentElement("beforeend",customerCard);
 
     let table = `
     <table class="table table-striped table-sm">
@@ -171,7 +198,7 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
 
     table += `</table>`;
 
-    document.getElementById("customerOverview").innerHTML = table;
+    document.getElementById("customerCard").innerHTML = table;
 
     /**
      * Skriven av Moohammaad
@@ -192,7 +219,7 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
     `;
 
     // Add the form to the page.
-    document.getElementById("customerOverview").insertAdjacentHTML("beforeend", commentForm);
+    document.getElementById("customerCard").insertAdjacentHTML("beforeend", commentForm);
 
     //Add listener for the click event.
     document.getElementById("content").addEventListener('click', event => {
@@ -226,9 +253,7 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
                         };
 
                         //Posting data to the api.
-                        let postComment = await api.postData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/${idOfUser}/customers/${idOfUser}/comment`, newComment);
-                        console.log(postComment);
-                        console.log(newComment.date);
+                        let postComment = await api.postData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/${idOfUser}/customers/${idOfCustomer}/comment`, newComment);
 
                     })();
                 }
@@ -267,7 +292,7 @@ async function viewCustomerCard(idOfCustomer, idOfUser) {
 
     commentsTable += `</tbody></table>`;
 
-    document.getElementById("customerOverview").insertAdjacentHTML("beforeend", commentsTable);
+    document.getElementById("customerCard").insertAdjacentHTML("beforeend", commentsTable);
 }
 
 function loading(isLoading = true) {
@@ -279,7 +304,7 @@ function loading(isLoading = true) {
         return;
     }
     let htmlLoadingIcon = `<div class="lds-ring loading"><div></div><div></div><div></div><div></div></div>`;
-    document.getElementById("customerOverview").innerHTML = htmlLoadingIcon;
+    document.getElementById("content").innerHTML = htmlLoadingIcon;
 }
 
 /**

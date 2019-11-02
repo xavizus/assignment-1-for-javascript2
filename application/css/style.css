@@ -16,13 +16,15 @@
   top: 0px;
   background-color: #FFF;
 }
-#customerOverview {
+#customersOverview,
+#customerCard {
   position: absolute;
   width: 100%;
-  top: 70px;
+  top: calc(70px + 60px);
   bottom: 0px;
   overflow-y: auto;
   overflow-x: auto;
+  white-space: normal;
 }
 @media screen and (max-width: 755px) {
   #container {
@@ -31,17 +33,21 @@
   }
   nav {
     position: fixed;
-    left: 0;
     bottom: 0;
   }
-  #customerOverview {
+  nav ul {
+    display: flex;
+    justify-content: space-around;
+  }
+  #customersOverview,
+  #customerCard {
     bottom: 84px;
   }
 }
 header {
   z-index: 99;
   background-color: #0A5990;
-  position: fixed;
+  position: relative;
   width: 100%;
   left: 0;
   top: 0;
@@ -52,6 +58,7 @@ header .logo {
   max-height: 70px;
   height: auto;
   width: auto;
+  margin: 30px;
 }
 main {
   margin-top: 100px;
@@ -64,16 +71,15 @@ main #overviewTable table tbody tr td {
 }
 nav {
   width: 100%;
-  position: fixed;
   z-index: 99;
   background-color: #0A5990;
   grid-area: nav;
 }
 @media screen and (min-width: 756px) {
   nav {
-    width: 80%;
     top: 0;
     right: 0;
+    padding: 30px 0px 30px 0px;
   }
 }
 nav ul {
@@ -82,48 +88,13 @@ nav ul {
   align-items: center;
   text-decoration: none;
   list-style-type: none;
-  justify-content: space-between;
   margin-bottom: 0px;
 }
 nav ul li {
   padding: 10px;
   text-decoration: none;
 }
-@media screen and (min-width: 756px) {
-  nav ul li:last-child button[type=submit] {
-    font-size: 17px;
-    float: right;
-    border: none;
-    cursor: pointer;
-    width: 38px;
-    height: 38px;
-    background-image: url("../images/96px/baseline_search_white_48dp.png");
-    background-size: contain;
-    background-color: #0A5990;
-  }
-  nav ul li:last-child input[type="text"] {
-    font-size: 17px;
-    border: none;
-    padding: 6px;
-    border-radius: 5px;
-  }
-}
 @media screen and (max-width: 755px) {
-  nav ul li:last-child input[type="text"] {
-    display: none;
-  }
-  nav ul button[type=submit] {
-    font-size: 17px;
-    float: right;
-    border: none;
-    cursor: pointer;
-    width: 48px;
-    height: 48px;
-    background-image: url("../images/96px/baseline_search_white_48dp.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-color: #0A5990;
-  }
   nav ul #addNewCustomerDiv {
     left: 0;
     bottom: 80px;
@@ -131,6 +102,18 @@ nav ul li {
     min-width: 200px;
     padding: 15px;
   }
+}
+.invalid-feedback {
+  font-weight: bold;
+  color: #FFF !important;
+}
+.btn {
+  background-color: #0A5990 !important;
+  border-color: #0A5990 !important;
+}
+.btn:hover {
+  background-color: #073c60 !important;
+  border-color: #073c60 !important;
 }
 #home-icon {
   background: url(../images/96px/baseline_home_white_48dp.png);
@@ -150,7 +133,7 @@ nav ul li {
   background-repeat: no-repeat;
   cursor: pointer;
 }
-#calendar-icon {
+#reminder-icon {
   background: url(../images/96px/baseline_calendar_today_white_48dp.png);
   display: block;
   background-size: 48px 48px;
@@ -240,4 +223,7 @@ nav ul li {
   font-size: 16px;
   color: #FFF;
   margin-top: 10px;
+}
+#createBtn:focus {
+  outline: none;
 }
