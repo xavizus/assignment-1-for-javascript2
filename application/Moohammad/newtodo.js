@@ -10,15 +10,15 @@ addBtn.addEventListener("click", function(e) {
     let li = document.createElement("li");
     li.innerHTML = item;
 
-    let checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.setAttribute("id", "check");
+    let checkbox 
 
     todoUl.appendChild(li);
     li.appendChild(checkbox);
+    
 }); 
 
+
 removeBtn.addEventListener("click", function(e){
-   
+    
 });
 
