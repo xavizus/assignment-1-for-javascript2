@@ -14,6 +14,7 @@ class Reminder {
         this.checked = checked
     }
 
+    // Loads class object data
     async loadEventData(userId, i, events) {
         let data = events;
         this.id = data[i].id;
@@ -22,28 +23,44 @@ class Reminder {
         this.description = data[i].description;
         this.content = data[i].content;
         this.checked = data[i].checked;
-        console.log(this.checked);
     }
 
-    async getEvents() {
+    // Gets the API data stored in object
+    async getEvents(mymodal) {
         let newDate = new Date();
         let currentDate = newDate.toISOString().substring(0, 10);
         let currentDateMil = newDate.getTime();
         let thisDate = new Date();
         thisDate.setTime(Date.parse(this.date));
         let thisDateMil = thisDate.getTime();
-        console.log(thisDateMil);
-        console.log(currentDateMil);
-        console.log(this.content);
-
-        if (thisDate.toISOString().substring(0, 10) == currentDate || currentDateMil > thisDateMil) {            
-
-            if (this.checked == false) {
+        // Checks if reminders are due at current date or has been due
+        if (thisDate.toISOString().substring(0, 10) == currentDate || currentDateMil > thisDateMil) {          
+            
+            let idOfReminder = document.getElementById(this.id);
+            // Checks if event is checked and also checks if there is already a reminder loaded of the same id
+            if (this.checked == false && this.id != idOfReminder) {
+                
                 let updateEventObject = {
                     checked: true
                 };
                 api.updateData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/events/${this.id}`, updateEventObject);
-                alert(this.description + "\n" + this.content);
+
+                let newModal = `<div class="modal-content" id="${this.id}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Title: ${this.description}</h4>
+                </div>
+                <div class="modal-header">
+                    <h4 class="modal-title">Date: ${thisDate.toISOString().substring(0, 10)}</h4>
+                </div>
+                <div class="modal-body">
+                    <h5 class="modal-title">Reminder:</h5>
+                    <p>${this.content}</p>
+                </div>
+            </div>`
+
+                document.getElementById("modal-header").insertAdjacentHTML("afterend", newModal);
+                $('#mymodal').modal(focus);
+                
             }
         }
     }

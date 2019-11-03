@@ -103,6 +103,15 @@ nav ul li {
     padding: 15px;
   }
 }
+@media screen and (max-width: 755px) {
+  nav ul #newReminderDiv {
+    left: 0;
+    bottom: 80px;
+    width: 100%;
+    min-width: 200px;
+    padding: 15px;
+  }
+}
 .invalid-feedback {
   font-weight: bold;
   color: #FFF !important;
@@ -110,10 +119,12 @@ nav ul li {
 .btn {
   background-color: #0A5990 !important;
   border-color: #0A5990 !important;
+  color:white;
 }
 .btn:hover {
   background-color: #073c60 !important;
   border-color: #073c60 !important;
+  color:white;
 }
 #home-icon {
   background: url(../images/96px/baseline_home_white_48dp.png);
@@ -202,6 +213,25 @@ nav ul li {
   width: 20%;
   min-width: 200px;
   padding: 15px;
+}
+#newReminderDiv {
+  position: absolute;
+  margin-top: 60px;
+  border-radius: 5px;
+  width: 20%;
+  min-width: 200px;
+  padding: 15px;
+  background-color: #0A5990;
+}
+#addReminder {
+  padding: 10px;
+  background-color: #E91F3E;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #FFF;
+  margin-top: 10px;
 }
 #newCustomer > input {
   width: 100%;

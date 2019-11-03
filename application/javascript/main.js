@@ -6,17 +6,46 @@ import User from './classes/user.js';
 import * as api from './customFunctions/api.js';
 import Reminder from './classes/events.js';
 
+
+
 document.addEventListener("DOMContentLoaded", loadCache);
 /**
  * Skriven av Robin
  */
+document.addEventListener("DOMContentLoaded", function(e) {
+    let mymodal = document.getElementById("mymodal");
+    mymodal.addEventListener("change", function(e) {
+        if(mymodal.className == "modal fade show"){
+            clearInterval(eventInterval);
+        }
+        else if (mymodal.className == "modal fade"){
+            eventInterval = setInterval(events, 30000, userId);
+        }
+    })
+});
 
-async function events() {
 
+
+
+async function events(userId) {
+
+
+if(mymodal.className != "modal fade show"){
+        let containerDiv = document.getElementById("modal-content");
+        while (containerDiv.firstChild) {
+            containerDiv.removeChild(containerDiv.firstChild);
+        }
+        let newModalFrame = `<div class="modal-header" id="modal-header">
+    <h2 class="modal-title">Reminders:</h2>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" id="closeButton" data-dismiss="modal">Close</button>
+</div>`;
+        document.getElementById("modal-content").insertAdjacentHTML("beforeend", newModalFrame);
+    }
     let allEventsObj = [];
     let allEvents = [];
     let events = await api.default(Settings.url + Settings.user + userId + '/' + Settings.event);
-    console.log(events);
     allEvents.push(events);
     for (let i = 0; i < events.length; i++) {
         let eventObj = new Reminder();
@@ -25,10 +54,73 @@ async function events() {
     }
 
     for (let i = 0; i < allEventsObj.length; i++) {
-        allEventsObj[i].getEvents();
+        allEventsObj[i].getEvents(mymodal);
     }
 
 }
+
+function addReminder() {
+    let title = document.getElementById("title").value;
+    let reminder = document.getElementById("reminder").value;
+    let date = document.getElementById("date").value;
+
+    let newReminder = {
+        description: title,
+        content: reminder,
+        date: date
+    };
+    (async (object) => {
+        let postNewCustomer = await api.postData("http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/events", object);
+        loadCache();
+    })(newReminder);
+}
+
+document.addEventListener('DOMContentLoaded', (e) => {
+
+    let getReminder = document.getElementById("reminder-icon");
+    getReminder.addEventListener("click", function (e) {
+        if (e.target.id == "reminder-icon") {
+            if (!document.getElementById("newReminderDiv") && !document.getElementById("addNewCustomerDiv")) {
+
+                let addReminderDiv = document.createElement("div");
+                addReminderDiv.setAttribute("id", "newReminderDiv");
+
+                let reminder = `
+                <form id="newCustomer" class="needs-validation" novalidate>
+                <input type="text" id="title" class="form-control" placeholder="Title" required>
+                <div class="invalid-feedback">
+                    Ange titel på din påminnelse
+                </div>
+                <input type="text" id="reminder" class="form-control" placeholder="Reminder message" required>
+                <div class="invalid-feedback">
+                </div>
+                <input type="date" id="date" class="form-control" required>
+                <div class="invalid-feedback">
+                </div>                             
+                <button id="addReminder">Add</button>
+            </form> `;
+                document.getElementById("reminder-icon").insertAdjacentElement("beforeend", addReminderDiv);
+                document.getElementById("newReminderDiv").insertAdjacentHTML("beforeend", reminder);
+                document.getElementById(event.target.id).disabled = "true";
+            } else {
+                document.getElementById("newReminderDiv").remove();
+            }
+        }
+    });
+    document.getElementById("reminder-icon").addEventListener("click", (e) => {
+        if (e.target.id == "addReminder") {
+            var addReminders = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(addReminders, function (reminder) {
+                if (reminder.checkValidity() === true) {
+                    addReminder();
+                    document.getElementById("newReminderDiv").remove();
+                }
+                reminder.classList.add('was-validated');
+            }, false);
+        }
+    });
+
+});
 
 //Slut av skriven av Robin.
 
@@ -37,12 +129,12 @@ async function events() {
  * @param {*} user 
  */
 
- function loadCache() {
+function loadCache() {
     addEventListenerOnNavbar();
 
     let cachedData = JSON.parse(window.localStorage.getItem("user"));
 
-    if(cachedData != null) {
+    if (cachedData != null) {
         buildTable(new User(cachedData.id, cachedData));
         let elements = document.getElementsByClassName('clickAble');
         for (let element of elements) {
@@ -56,7 +148,7 @@ async function events() {
     }
 
     main();
- }
+}
 
 async function main() {
     //No security Risk here!
@@ -70,7 +162,7 @@ async function main() {
     await currentUser.getCustomerComments(userId);
     loading(false);
 
-    if(!document.getElementById("customerCard")) {
+    if (!document.getElementById("customerCard")) {
         buildTable(currentUser);
     }
 
@@ -83,7 +175,11 @@ async function main() {
         });
     }
 
-    //events(userId);
+    //Sätter en interval som pingar efter nya events varannan sekund med events funktionen
+    events(userId);
+    let eventInterval = setInterval(events, 30000, userId);
+
+    
 
     window.localStorage.setItem("user", JSON.stringify(currentUser));
 
@@ -95,7 +191,7 @@ function addEventListenerOnNavbar() {
 }
 
 function buildTable(user) {
-    if (document.getElementById("customerCard")){
+    if (document.getElementById("customerCard")) {
         document.getElementById("customerCard").remove();
     }
     let table = `
@@ -135,11 +231,11 @@ function buildTable(user) {
 
     for (let customer of user.customers) {
         let latestComment = customer.getLatestComment();
-        
+
         // Replace date with "--" if no date exisits.
-        let latestCommentDate = (latestComment.date != null) ? 
-        new Date(latestComment.date).toISOString().substring(0, 10) : 
-        "--";
+        let latestCommentDate = (latestComment.date != null) ?
+            new Date(latestComment.date).toISOString().substring(0, 10) :
+            "--";
 
         table += `
         <tr class="clickAble" data="${customer.id}">
@@ -156,10 +252,10 @@ function buildTable(user) {
     }
     table += `</table> </div>`;
 
-    if(!document.getElementById("customersOverview")) {
+    if (!document.getElementById("customersOverview")) {
         let customersOverview = document.createElement("div");
-        customersOverview.setAttribute("id","customersOverview");
-        document.getElementById("content").insertAdjacentElement("beforeend",customersOverview);
+        customersOverview.setAttribute("id", "customersOverview");
+        document.getElementById("content").insertAdjacentElement("beforeend", customersOverview);
     } else {
         document.getElementById("customersOverview").innerHTML = "";
     }
@@ -168,16 +264,16 @@ function buildTable(user) {
 
 async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
     loading();
-    let customer = customers.find( (currentCustomer)=> {
-        if(currentCustomer.id == idOfCustomer) {
+    let customer = customers.find((currentCustomer) => {
+        if (currentCustomer.id == idOfCustomer) {
             return currentCustomer;
         }
     });
     loading(false);
 
     let customerCard = document.createElement("div");
-    customerCard.setAttribute("id","customerCard");
-    document.getElementById("content").insertAdjacentElement("beforeend",customerCard);
+    customerCard.setAttribute("id", "customerCard");
+    document.getElementById("content").insertAdjacentElement("beforeend", customerCard);
 
     let table = `
     <table class="table table-striped table-sm">
@@ -254,7 +350,7 @@ async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
                     let textarea = document.getElementById("textarea");
 
                     //Anonumous function that's called directly.
-                    (async() => {
+                    (async () => {
 
                         //Packing our data to an object.
                         let newComment = {
@@ -286,16 +382,16 @@ async function viewCustomerCard(customers, idOfCustomer, idOfUser) {
 
 }
 
-    /**
-     * Skriven av Stephan
-     */
+/**
+ * Skriven av Stephan
+ */
 
-    function loadComments(customer) {
+function loadComments(customer) {
 
-        if (document.getElementById("commentTable")) {
-            document.getElementById("commentTable").remove();
-        }
-    
+    if (document.getElementById("commentTable")) {
+        document.getElementById("commentTable").remove();
+    }
+
 
     let commentsTable = `
         <table id="commentTable" class="table table-striped table-sm">
@@ -362,7 +458,7 @@ function addCustomer() {
         hourPrice: hourprice
     };
 
-    (async(input) => {
+    (async (input) => {
         let postNewCustomer = await api.postData("http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/customers", input);
         console.log(postNewCustomer);
         loadCache();
@@ -371,7 +467,7 @@ function addCustomer() {
 
 window.addEventListener('DOMContentLoaded', (event) => {
 
-    
+
     // let btn = document.createElement("button");
     // btn.setAttribute("id", "addNewCustomer");
     // let btnText = document.createTextNode("+");
@@ -413,10 +509,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById("addNewCustomerDiv").insertAdjacentHTML("beforeend", form);
     }
 
-
-    addNewCustomer.addEventListener("click", function(event) {
+    addNewCustomer.addEventListener("click", function (event) {
         if (event.target.id == "customers-icon") {
-            if (!document.getElementById("addNewCustomerDiv")) {
+            if (!document.getElementById("addNewCustomerDiv") && !document.getElementById("newReminderDiv")) {
                 let addNewCustomerDiv = document.createElement("div");
                 addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
                 document.getElementById("customers-icon").insertAdjacentElement("beforeend", addNewCustomerDiv);
@@ -432,7 +527,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         event.preventDefault();
         if (event.target.id == "createBtn") {
             var forms = document.getElementsByClassName('needs-validation');
-            var validation = Array.prototype.filter.call(forms, function(form) {
+            var validation = Array.prototype.filter.call(forms, function (form) {
                 if (form.checkValidity() === true) {
                     addCustomer();
                     document.getElementById("addNewCustomerDiv").remove();
