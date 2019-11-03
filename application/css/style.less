@@ -123,6 +123,15 @@ nav {
                 padding: 15px;
             }
         }
+        @media screen and (max-width: 755px) {
+            nav ul #newReminderDiv {
+            left: 0;
+            bottom: 80px;
+            width: 100%;
+            min-width: 200px;
+            padding: 15px;
+            }
+        }
 
     }
 }
@@ -134,12 +143,14 @@ nav {
 
 .btn {
     background-color: @mainColor2 !important;
-    border-color:  @mainColor2 !important
+    border-color:  @mainColor2 !important;
+    color:white;
 }
 
 .btn:hover {
     background-color: darken(@mainColor2,10%) !important;
     border-color: darken(@mainColor2,10%) !important;
+    color:white;
 }
 
 
@@ -236,7 +247,25 @@ nav {
 //     font-size: 16px;
 //     color: @backgroundColor1;
 // }
-
+#newReminderDiv {
+    position: absolute;
+    margin-top: 60px;
+    border-radius: 5px;
+    width: 20%;
+    min-width: 200px;
+    padding: 15px;
+    background-color: #0A5990;
+}
+#addReminder {
+    padding: 10px;
+    background-color: #E91F3E;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #FFF;
+    margin-top: 10px;
+}
 #newCustomer > input {
     width: 100%;
     height: 30px;
