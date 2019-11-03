@@ -36,7 +36,7 @@ let todoList = {
         this.displayTodos();
     },
     toggleAll() {
-        totalTodos = this.todos.length;
+        let totalTodos = this.todos.length;
         let completedTodos = 0;
 
         for(let i = 0; i < totalTodos; i++) {
@@ -98,4 +98,12 @@ let handlers = {
     toggleAll: function() {
         todoList.toggleAll();
     }
+};
+
+let view = {
+    displayTodos: function() {
+        todosUl = document.querySelector("ul");
+        todoLi = document.createElement("li");
+        todosUl.appendChild();
+    }    
 };
