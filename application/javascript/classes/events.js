@@ -34,21 +34,23 @@ class Reminder {
         thisDate.setTime(Date.parse(this.date));
         let thisDateMil = thisDate.getTime();
         // Checks if reminders are due at current date or has been due
-        if (thisDate.toISOString().substring(0, 10) == currentDate || currentDateMil > thisDateMil) {            
-
-            if (this.checked == false && mymodal.className != "modal fade show") {
+        if (thisDate.toISOString().substring(0, 10) == currentDate || currentDateMil > thisDateMil) {          
+            
+            let idOfReminder = document.getElementById(this.id);
+            // Checks if event is checked and also checks if there is already a reminder loaded of the same id
+            if (this.checked == false && this.id != idOfReminder) {
                 
                 let updateEventObject = {
                     checked: true
                 };
                 api.updateData(`http://5dad9e39c7e88c0014aa2cda.mockapi.io/api/users/1/events/${this.id}`, updateEventObject);
 
-                let newModal = `<div class="modal-content">
+                let newModal = `<div class="modal-content" id="${this.id}">
                 <div class="modal-header">
                     <h4 class="modal-title">Title: ${this.description}</h4>
                 </div>
                 <div class="modal-header">
-                    <h4 class="modal-title">Duedate: ${thisDate.toISOString().substring(0, 10)}</h4>
+                    <h4 class="modal-title">Date: ${thisDate.toISOString().substring(0, 10)}</h4>
                 </div>
                 <div class="modal-body">
                     <h5 class="modal-title">Reminder:</h5>

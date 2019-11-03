@@ -24,7 +24,7 @@ mymodal.addEventListener("change", function(e) {
         clearInterval(eventInterval);
     }
     else{
-        setInterval(events, 1000, userId);
+        setInterval(events, 200, userId);
     }
 });
 if(mymodal.className != "modal fade show"){
@@ -172,8 +172,8 @@ async function main() {
         });
     }
 
-    //Sätter en interval som pingar efter nya events varje sekund med events funktionen
-    let eventInterval = setInterval(events, 1000, userId);
+    //Sätter en interval som pingar efter nya events varannan sekund med events funktionen
+    let eventInterval = setInterval(events, 200, userId);
 
     window.localStorage.setItem("user", JSON.stringify(currentUser));
 
