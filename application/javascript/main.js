@@ -12,21 +12,24 @@ document.addEventListener("DOMContentLoaded", loadCache);
 /**
  * Skriven av Robin
  */
+document.addEventListener("DOMContentLoaded", function(e) {
+    let mymodal = document.getElementById("mymodal");
+    mymodal.addEventListener("change", function(e) {
+        if(mymodal.className == "modal fade show"){
+            clearInterval(eventInterval);
+        }
+        else if (mymodal.className == "modal fade"){
+            eventInterval = setInterval(events, 30000, userId);
+        }
+    })
+});
 
 
 
 
 async function events(userId) {
 
-    let mymodal = document.getElementById("mymodal");
-mymodal.addEventListener("change", function(e) {
-    if(mymodal.className == "modal fade show"){
-        clearInterval(eventInterval);
-    }
-    else{
-        setInterval(events, 200, userId);
-    }
-});
+
 if(mymodal.className != "modal fade show"){
         let containerDiv = document.getElementById("modal-content");
         while (containerDiv.firstChild) {
@@ -173,7 +176,10 @@ async function main() {
     }
 
     //Sätter en interval som pingar efter nya events varannan sekund med events funktionen
-    let eventInterval = setInterval(events, 200, userId);
+    events(userId);
+    let eventInterval = setInterval(events, 30000, userId);
+
+    
 
     window.localStorage.setItem("user", JSON.stringify(currentUser));
 
