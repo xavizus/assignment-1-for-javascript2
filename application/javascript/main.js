@@ -509,10 +509,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById("addNewCustomerDiv").insertAdjacentHTML("beforeend", form);
     }
 
-
     addNewCustomer.addEventListener("click", function (event) {
         if (event.target.id == "customers-icon") {
-            if (!document.getElementById("addNewCustomerDiv")) {
+            if (!document.getElementById("addNewCustomerDiv") && !document.getElementById("newReminderDiv")) {
                 let addNewCustomerDiv = document.createElement("div");
                 addNewCustomerDiv.setAttribute("id", "addNewCustomerDiv");
                 document.getElementById("customers-icon").insertAdjacentElement("beforeend", addNewCustomerDiv);
