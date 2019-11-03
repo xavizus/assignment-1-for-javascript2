@@ -10,15 +10,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="../css/style.css">
-        <script Content-Type="text/javascript" src="../javascript/main.js" type="module"></script>
+        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="./css/newtodo.css">
+        <script Content-Type="text/javascript" src="./javascript/main.js" type="module"></script>
         <title>Pro CRM-System 1337</title>
-        <script src="todo.js"></script>
 </head>
 <body>
         <div id="container">
         <header>
-            <img src="../images/logo_white.png" alt="logo" class="logo">
+            <img src="./images/logo_white.png" alt="logo" class="logo">
         </header>
 
 
@@ -54,35 +54,16 @@
 
     <h1>Todo list</h1>
     
-    <div>
-        <button onclick="handlers.displayTodos()">Display Todos</button>
-        <button onclick="handlers.toggleAll()">Toggle All</button>        
-    </div>
+    <div id="containerz">
+            <input type="text" id="input"><br>
+            <button id="addBtn" class="btn">Add</button>
+        </div>
     
-    <div>
-        <button onclick="handlers.addTodo()">Add Todo</button>
-        <input id="addTodoTextInput" type="text">
-    </div>
-
-    <div>
-        <button onclick="handlers.changeTodo()">Change Todo</button>
-        <input id="changeTodoPositionInput" type="number">
-        <input id="changeTodoTextInput" type="text">
-    </div>
+        <div id="todo-container">
     
-    <div>
-        <button onclick="handlers.deleteTodo()">Delete Todo</button>
-        <input id="deleteTodoPositionInput" type="number">
-    </div>
-
-    <div>
-        <button onclick="handlers.toggleCompleted()">Toggle Completed</button>
-        <input id="toggleCompletedPositionInput" type="number">
-    </div>
-
-    <ul>
-
-    </ul>
+        </div>
+       
+    
     
 </body>
 </html>
