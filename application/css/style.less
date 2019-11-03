@@ -1,0 +1,295 @@
+@mainColor1: #E91F3E;
+@mainColor2: #0A5990;
+@backgroundColor1: #FFF;
+@backgroundColor2: #000;
+@fontColor: #000;
+@logoHeight: 70px;
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Open Sans;
+    color: @fontColor;
+    box-sizing: border-box;
+}
+
+#container {
+    display: grid;
+    grid-template-areas:
+        "header nav"
+        "main main";
+
+    grid-template-columns: 200px 1fr;
+}
+
+.sticky-header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    background-color: #FFF;
+}
+
+#customersOverview, #customerCard {
+    position: absolute;
+    width: 100%;
+    top: calc(@logoHeight + 60px);
+    bottom: 0px;
+    overflow-y:auto;
+    overflow-x: auto;
+    white-space: normal;
+}
+
+@media screen and (max-width: 755px) {
+    #container {
+        grid-template-areas:
+            "header"
+            "main"
+            "nav";
+            grid-template-columns: 1fr;
+    }
+
+    nav {
+        position: fixed;
+        bottom: 0;
+
+        ul {
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+    #customersOverview, #customerCard {
+        bottom: 84px;
+    }
+}
+
+
+header {
+        z-index: 99;
+        background-color: @mainColor2;
+        position: relative;
+        width: 100%;
+        left: 0;
+        top: 0;
+        grid-area: header;
+    .logo {
+        display: block;
+        max-height: @logoHeight;
+        height: auto;
+        width: auto;
+        margin: 30px;
+    }
+}
+
+main {
+    margin-top: 100px;
+    grid-area: main;
+    white-space: nowrap;
+    padding-bottom: 10px;
+
+    #overviewTable table tbody tr td {
+        cursor: pointer;
+    }
+}
+
+nav {
+    width: 100%;
+    @media screen and (min-width: 756px) {
+        top: 0;
+        right: 0;
+        padding: 30px 0px 30px 0px;
+    }
+    z-index: 99;
+    background-color: @mainColor2;
+    grid-area: nav;
+    ul {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-decoration: none;
+        list-style-type: none;
+        margin-bottom: 0px;
+
+        li {
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        @media screen and (max-width: 755px) {
+            #addNewCustomerDiv {
+                left: 0;
+                bottom: 80px;
+                width: 100%;
+                min-width: 200px;
+                padding: 15px;
+            }
+        }
+        @media screen and (max-width: 755px) {
+            nav ul #newReminderDiv {
+            left: 0;
+            bottom: 80px;
+            width: 100%;
+            min-width: 200px;
+            padding: 15px;
+            }
+        }
+
+    }
+}
+
+.invalid-feedback {
+    font-weight: bold;
+    color: @backgroundColor1 !important;
+}
+
+.btn {
+    background-color: @mainColor2 !important;
+    border-color:  @mainColor2 !important;
+    color:white;
+}
+
+.btn:hover {
+    background-color: darken(@mainColor2,10%) !important;
+    border-color: darken(@mainColor2,10%) !important;
+    color:white;
+}
+
+
+#icons() {
+    display: block;
+    background-size: 48px 48px;
+    width: 48px;
+    height: 48px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+#home-icon {
+    background: url(./../images/96px/baseline_home_white_48dp.png);
+    #icons();
+}
+
+#customers-icon {
+    background: url(./../images/96px/baseline_person_add_white_48dp.png);
+    #icons();
+}
+
+#reminder-icon {
+    background: url(./../images/96px/baseline_calendar_today_white_48dp.png);
+    #icons();
+}
+
+#todo-icon {
+    background: url(./../images/96px/baseline_format_list_bulleted_white_48dp.png);
+    #icons();
+}
+
+#search-icon {
+    background: url("./../images/96px/baseline_search_white_48dp.png");
+    #icons();
+}
+
+
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+
+    div {
+        box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    border: 6px solid #000;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #000 transparent transparent transparent;
+    }
+
+    div:nth-child(1) {
+        animation-delay: -0.45s;
+    }
+
+    div:nth-child(2) {
+        animation-delay: -0.3s;
+    }
+    div:nth-child(3) {
+        animation-delay: -0.15s;
+    }
+}
+
+@keyframes lds-ring {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
+}
+
+#addNewCustomerDiv {
+    position: absolute; //absolute bryr sig bara om sin egna förälder. Med absolute så är den ändå relative till den. Men absolute till alla andra divar.
+    margin-top: 60px;
+    border-radius: 5px;
+    width: 20%;
+    min-width: 200px;
+    padding: 15px;
+}
+
+//   #addNewCustomer { //första knappen
+//     padding: 10px 15px 10px 15px;
+//     background: @mainColor2;
+//     border: none;
+//     border-radius: 5px;
+//     text-decoration: none;
+//     font-size: 16px;
+//     color: @backgroundColor1;
+// }
+#newReminderDiv {
+    position: absolute;
+    margin-top: 60px;
+    border-radius: 5px;
+    width: 20%;
+    min-width: 200px;
+    padding: 15px;
+    background-color: #0A5990;
+}
+#addReminder {
+    padding: 10px;
+    background-color: #E91F3E;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #FFF;
+    margin-top: 10px;
+}
+#newCustomer > input {
+    width: 100%;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding-left: 5px;
+}
+
+#newCustomer > input:first-child { 
+    margin-top: 0;
+}
+
+  #createBtn { //andra knappen
+    padding: 10px;
+    background-color: @mainColor1;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    color: @backgroundColor1;
+    margin-top: 10px;
+}
+
+#createBtn:focus {
+    outline: none;
+}
