@@ -43,6 +43,10 @@
   #customerCard {
     bottom: 84px;
   }
+  tr td:nth-child(1n+3),
+  tr th:nth-child(1n+3) {
+    display: none;
+  }
 }
 header {
   z-index: 99;
@@ -104,7 +108,7 @@ nav ul li {
   }
 }
 @media screen and (max-width: 755px) {
-  nav ul #newReminderDiv {
+  nav ul nav ul #newReminderDiv {
     left: 0;
     bottom: 80px;
     width: 100%;
@@ -119,12 +123,12 @@ nav ul li {
 .btn {
   background-color: #0A5990 !important;
   border-color: #0A5990 !important;
-  color:white;
+  color: white;
 }
 .btn:hover {
   background-color: #073c60 !important;
   border-color: #073c60 !important;
-  color:white;
+  color: white;
 }
 #home-icon {
   background: url(../images/96px/baseline_home_white_48dp.png);
